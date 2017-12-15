@@ -1,6 +1,16 @@
 page-landing {
+    #auth{
+        position: absolute;
+        top: 0;
+        right: 0;
+        button{
+            text-transform: none;
+        }
+    }
+
     #logo{
         height: 30%;
+        text-align: center;
         img{
             position: relative;
             top: 50%;
