@@ -43,14 +43,13 @@
         <ion-input [(ngModel)]="phoneNumber"></ion-input>
       </ion-item>
 
-      <ion-list>
-        <ion-item>
-          <ion-label>Gender</ion-label>
-          <ion-select [(ngModel)]="gender"></ion-select>
-            <ion-option value="female">Female</ion-option>
-            <ion-option valuel="male">Male</ion-option>
-        </ion-item>
-      </ion-list>
+      
+      <ion-item style="margin-top: 20px;">
+        <ion-label>Gender</ion-label>
+        <ion-select [(ngModel)]="gender"></ion-select>
+          <ion-option value="female">Female</ion-option>
+          <ion-option valuel="male">Male</ion-option>
+      </ion-item>
   
       <div id="center-btn">
         <button ion-button round (click)="signUp()" >Sign Up</button>
