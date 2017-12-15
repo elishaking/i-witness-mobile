@@ -1,14 +1,32 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>
-      Ionic Blank
+      {{ firstName }}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <div id="avatar">
+    <img src="" alt="avatar"/>
+  </div>
+  
+  <div id="details">
+    <h3>{{ firstName }} {{ lastName }}</h3>
+    <p class="highlight">{{ phoneNumber }}</p>
+  </div>
+
+  <ion-list id="options">
+    <button ion-item>
+      Report History
+    </button>
+
+    <button ion-item>
+      Details
+    </button>
+
+    <button ion-item>
+      Account Settings
+    </button>
+  </ion-list>
 </ion-content>
