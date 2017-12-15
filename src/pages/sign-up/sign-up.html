@@ -1,12 +1,61 @@
 <ion-header>
+  
+    <ion-navbar color="primary">
+      <ion-title>Sign Up</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content padding>
+    <div id="logo">
+      <img src="" alt="logo"/>
+    </div>
+  
+    <div id="form-container">
+      <ion-item>
+        <ion-label floating>First name</ion-label>
+        <ion-input [(ngModel)]="firstName"></ion-input>
+      </ion-item>
 
-  <ion-navbar>
-    <ion-title>sign-up</ion-title>
-  </ion-navbar>
+      <ion-item>
+        <ion-label floating>Last name</ion-label>
+        <ion-input [(ngModel)]="lastName"></ion-input>
+      </ion-item>
 
-</ion-header>
+      <ion-item>
+        <ion-label floating>Username</ion-label>
+        <ion-input [(ngModel)]="username"></ion-input>
+      </ion-item>
 
+      <ion-item>
+        <ion-label floating>email</ion-label>
+        <ion-input [(ngModel)]="email"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label floating>password</ion-label>
+        <ion-input [(ngModel)]="password" ></ion-input>
+      </ion-item>
 
-<ion-content padding>
+      <ion-item>
+        <ion-label floating>Phone Number</ion-label>
+        <ion-input [(ngModel)]="phoneNumber"></ion-input>
+      </ion-item>
 
-</ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>Gender</ion-label>
+          <ion-select [(ngModel)]="gender"></ion-select>
+            <ion-option value="female">Female</ion-option>
+            <ion-option valuel="male">Male</ion-option>
+        </ion-item>
+      </ion-list>
+  
+      <div id="center-btn">
+        <button ion-button round (click)="signUp()" >Sign Up</button>
+      </div>
+  
+      
+    </div>
+  </ion-content>
