@@ -1,12 +1,35 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>submit-report</ion-title>
+    <ion-title>Submit Report</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-item>
+    <ion-label floating>Title</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
 
+  <table id="files">
+    <tr>
+      <td><p>{{ nFiles }} added</p></td>
+      <td><button ion-button clear (click)="addNewFile()">Add New File</button></td>
+    </tr>
+  </table>
+
+  <ion-item>
+    <ion-label floating>Brief Description</ion-label>
+    <ion-textarea></ion-textarea>
+  </ion-item>
+
+  <table id="send">
+    <tr>
+      <td><button ion-button clear disabled style="color: black;">Send as</button></td>
+      <td><button ion-button round (click)="submitAsUser()">{{ name }}</button></td>
+      <td><button ion-button clear (click)="submitAsUnknown()">Anonymous User</button></td>
+    </tr>
+  </table>
 </ion-content>
