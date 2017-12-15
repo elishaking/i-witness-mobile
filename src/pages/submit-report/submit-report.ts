@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { AddReportFilePage } from '../add-report-file/add-report-file';
+import { CompletePage } from '../complete/complete';
 
 @Component({
   selector: 'page-submit-report',
@@ -25,11 +26,11 @@ export class SubmitReportPage {
   }
 
   submitAsUser(){
-
+    this.navCtrl.push(CompletePage);
   }
 
   submitAsUnknown(){
-
+    this.navCtrl.push(CompletePage);
   }
 
 }
