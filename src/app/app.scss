@@ -14,3 +14,18 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+
+#logo{
+    height: 30%;
+    text-align: center;
+    img{
+        position: relative;
+        top: 50%;
+    }
+}
+
+#center-btn{
+    margin-top: 5vh;
+    text-align: center;
+}
