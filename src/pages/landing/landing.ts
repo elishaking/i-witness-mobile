@@ -11,7 +11,7 @@ export class LandingPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LandingPage');
+    // console.log('ionViewDidLoad LandingPage');
   }
 
 }
