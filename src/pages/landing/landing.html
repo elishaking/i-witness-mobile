@@ -1,12 +1,36 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>landing</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>iWitness</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <div id="auth">
+    <button ion-button clear (click)="signIn()" >Sign In</button>/<button ion-button clear (click)="signUp()">Sign Up</button>
+  </div>
 
+  <div id="logo">
+    <img src="" alt="logo"/>
+  </div>
+
+  <div id="details">
+    <p>Please, help reduce crime rate by reporting any suspicious events. Any criminal report 
+      provided will be protected/secured under the Nigerian Police Force Privacy Policy.</p>
+  </div>
+
+  <div id="center-btn">
+    <button ion-button round (click)="createReport()" >Create Report</button>
+  </div>
+
+  <div id="footer">
+    <table>
+      <tr>
+        <td><p>Powered by Nigerian Police Force &nbsp; &nbsp;</p></td>
+        <td><img src="" alt="logo"/></td>
+      </tr>
+    </table>
+  </div>
 </ion-content>

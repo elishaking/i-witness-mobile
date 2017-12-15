@@ -1,3 +1,43 @@
 page-home {
+    #avatar{
+        height: 30%;
+        text-align: center;
+        ion-icon{
+            transform: scale(8);
+            position: relative;
+            top: 50%;
+        }
+    }
 
+    #details{
+        text-align: center;
+    }
+
+    #options{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin: 3vh 1vw;
+        width: 95%;
+        
+        button{
+            padding: 0 0 0 5px;
+            border-left: 3vw solid color($colors, primary);
+            border-bottom: 1px solid color($colors, primary);
+            border-top: 1px solid color($colors, primary);
+            border-right: 1px solid color($colors, primary);
+            border-radius: 3px;
+            background: lighten($color: color($colors, primary), $amount: 33%);
+            margin: 2px 0;
+            transition: 0.2s ease-in-out;
+        }
+
+        button:active{
+            transform: scale(0.98);
+        }
+    }
+
+    .highlight{
+        color: color($colors, primary);
+    }
 }

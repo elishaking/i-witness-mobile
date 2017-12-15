@@ -1,3 +1,14 @@
 page-landing {
+    #auth{
+        position: absolute;
+        top: 0;
+        right: 0;
+        button{
+            text-transform: none;
+        }
+    }
 
+    #details{
+        height: 30%;
+    }
 }
