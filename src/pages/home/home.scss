@@ -1,8 +1,9 @@
 page-home {
     #avatar{
-        height: 20%;
+        height: 30%;
         text-align: center;
-        img{
+        ion-icon{
+            transform: scale(8);
             position: relative;
             top: 50%;
         }
