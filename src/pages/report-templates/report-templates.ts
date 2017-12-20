@@ -3,7 +3,6 @@ import { NavController, NavParams } from 'ionic-angular';
 
 
 
-
 @Component({
   selector: 'page-report-templates',
   templateUrl: 'report-templates.html',
@@ -11,6 +10,7 @@ import { NavController, NavParams } from 'ionic-angular';
 export class ReportTemplatesPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    
   }
 
   ionViewDidLoad() {
