@@ -9,7 +9,7 @@
 
 <ion-content pading>
 
-  <ion-card>
+  <ion-card (click)="openSubmitReportPage('General')">
 
     <img src="assets/imgs/general-report.jpg"/>
   
@@ -24,7 +24,7 @@
   
   </ion-card>
 
-<ion-card>
+<ion-card (click)="openSubmitReportPage('Robbery')">
 
   <img src="assets/imgs/robbery.jpg"/>
 
@@ -39,7 +39,7 @@
 
 </ion-card>
 
-<ion-card>
+<ion-card (click)="openSubmitReportPage()">
 
   <img src="assets/imgs/suspicious-activity.jpg"/>
 

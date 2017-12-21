@@ -1,21 +1,17 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the SubmitPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
-@IonicPage()
 @Component({
   selector: 'page-submit',
   templateUrl: 'submit.html',
 })
 export class SubmitPage {
-
+    title:any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.title = navParams.get('title');
+    // console.log(this.title);
+    
   }
 
   ionViewDidLoad() {
