@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import { SubmitPage } from '../submit/submit'
+// import { SubmitPage } from '../submit/submit'
 import { SubmitReportPage } from '../submit-report/submit-report'
 
 @Component({
@@ -19,7 +19,7 @@ export class ReportTemplatesPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ReportTemplatesPage');
+    // console.log('ionViewDidLoad ReportTemplatesPage');
   }
 
 }
