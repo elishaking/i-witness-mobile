@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { SubmitPage } from '../submit/submit'
+import { SubmitReportPage } from '../submit-report/submit-report'
 
 @Component({
   selector: 'page-report-templates',
@@ -14,7 +15,7 @@ export class ReportTemplatesPage {
   }
 
   openSubmitReportPage(title:string){
-    this.navCtrl.push(SubmitPage, {title: title})
+    this.navCtrl.push(SubmitReportPage, {title: title})
   }
 
   ionViewDidLoad() {

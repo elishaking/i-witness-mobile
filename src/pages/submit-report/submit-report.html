@@ -8,21 +8,32 @@
 
 
 <ion-content padding>
+  <!-- <ion-item> -->
+    <div floating id="title">
+      <h2> {{ title }}  </h2>
+    </div>
+  <!-- </ion-item> -->
+
   <ion-item>
-    <ion-label floating>Title</ion-label>
-    <ion-input type="text"></ion-input>
+    <table id="files">
+      <tr>
+          <td><button ion-button padding (click)="addMedia()">Add media file</button></td>
+          <td><ion-icon padding name="camera"></ion-icon></td>
+          <td><ion-icon padding name="mic"></ion-icon></td>
+          <td><ion-icon padding name="videocam"></ion-icon></td>
+        <!-- <td><button ion-button clear (click)="addNewFile()">Add New File</button></td> -->
+      </tr>
+    </table>
+    <p>{{ nFiles }} added</p>
   </ion-item>
 
-  <table id="files">
-    <tr>
-      <td><p>{{ nFiles }} added</p></td>
-      <td><button ion-button clear (click)="addNewFile()">Add New File</button></td>
-    </tr>
-  </table>
+  <ion-card>
+      <h3>Preview media</h3>
+    </ion-card>
 
   <ion-item>
     <ion-label floating>Brief Description</ion-label>
-    <ion-textarea></ion-textarea>
+    <ion-textarea rows="5"></ion-textarea>
   </ion-item>
 
   <table id="send">

@@ -15,7 +15,6 @@ import { AddReportFilePage } from '../pages/add-report-file/add-report-file';
 import { SubmitReportPage } from '../pages/submit-report/submit-report';
 import { CompletePage } from '../pages/complete/complete';
 import { ReportTemplatesPage } from '../pages/report-templates/report-templates';
-import { SubmitPage } from '../pages/submit/submit';
 
 @NgModule({
   declarations: [
@@ -29,7 +28,6 @@ import { SubmitPage } from '../pages/submit/submit';
     SubmitReportPage,
     CompletePage,
     ReportTemplatesPage,
-    SubmitPage,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +46,6 @@ import { SubmitPage } from '../pages/submit/submit';
     SubmitReportPage,
     CompletePage,
     ReportTemplatesPage,
-    SubmitPage,
   ],
   providers: [
     StatusBar,
