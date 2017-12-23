@@ -4,7 +4,7 @@ import { ActionSheetController } from 'ionic-angular/components/action-sheet/act
 
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { MediaCapture, MediaFile, CaptureError, 
-  CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture';
+  CaptureImageOptions, CaptureVideoOptions, CaptureAudioOptions } from '@ionic-native/media-capture';
 
 import { AddReportFilePage } from '../add-report-file/add-report-file';
 import { CompletePage } from '../complete/complete';
@@ -62,9 +62,13 @@ export class SubmitReportPage {
     let options: CaptureImageOptions = { limit: 1 };
     this.mediaCapture.captureImage(options).then(
       (data: MediaFile[]) => {
-        let prev = <HTMLImageElement>document.getElementById('image');
-        prev.src = data[0].fullPath;
-        // console.log(prev.src);
+        this.nFiles++;
+        let mediaContainer = document.getElementById('media');
+        let newImg = document.createElement('img');
+        newImg.src = data[0].fullPath;
+        mediaContainer.appendChild(newImg);
+        // let prev = <HTMLImageElement>document.getElementById('image');
+        // prev.src = data[0].fullPath;
       },
       (err: CaptureError) => console.error(err)
     );
@@ -74,9 +78,35 @@ export class SubmitReportPage {
     let options: CaptureVideoOptions = { limit: 1 };
     this.mediaCapture.captureVideo(options).then(
       (data: MediaFile[]) => {
-        let vidSrc = <HTMLSourceElement> document.getElementById('video-src');
-        vidSrc.src = data[0].fullPath;
-        console.log(vidSrc.src);
+        this.nFiles++;
+        let mediaContainer = document.getElementById('media');
+        let newVid = document.createElement('video');
+        newVid.setAttribute('controls', 'true');
+        // let vid = <HTMLVideoElement>document.getElementById('video');
+        let source = document.createElement('source');
+        source.setAttribute('src', data[0].fullPath);
+        newVid.appendChild(source);
+        mediaContainer.appendChild(newVid);
+        // vid.play();
+        // console.log(vidSrc.src);
+      },
+      (err: CaptureError) => console.error(err)
+    );
+  }
+
+  audioCapture(){
+    let options: CaptureAudioOptions = { limit: 1 };
+    this.mediaCapture.captureAudio(options).then(
+      (data: MediaFile[]) => {
+        this.nFiles++;
+        let mediaContainer = document.getElementById('media');
+        let newAud = document.createElement('audio');
+        newAud.setAttribute('controls', 'true');
+        // let vid = <HTMLVideoElement>document.getElementById('video');
+        let source = document.createElement('source');
+        source.setAttribute('src', data[0].fullPath);
+        newAud.appendChild(source);
+        mediaContainer.appendChild(newAud);
       },
       (err: CaptureError) => console.error(err)
     );
@@ -96,18 +126,19 @@ export class SubmitReportPage {
           }
         },
         {
-          text: 'Record audio',
-          icon: !this.platform.is('ios') ? 'mic' : null,
+          text: 'Record video',
+          icon: !this.platform.is('ios') ? 'videocam' : null,
           handler: () => {
-            // console.log('audio recorder open');
+            // console.log('camera app')
             this.videoCapture();
           }
         },
         {
-          text: 'Record video',
-          icon: !this.platform.is('ios') ? 'videocam' : null,
+          text: 'Record audio',
+          icon: !this.platform.is('ios') ? 'mic' : null,
           handler: () => {
-            console.log('camera app')
+            // console.log('audio recorder open');
+            this.audioCapture();
           }
         }
       ]
