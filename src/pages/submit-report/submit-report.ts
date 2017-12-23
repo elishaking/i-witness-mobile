@@ -3,7 +3,8 @@ import { Platform, NavController, NavParams } from 'ionic-angular';
 import { ActionSheetController } from 'ionic-angular/components/action-sheet/action-sheet-controller';
 
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture';
+import { MediaCapture, MediaFile, CaptureError, 
+  CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture';
 
 import { AddReportFilePage } from '../add-report-file/add-report-file';
 import { CompletePage } from '../complete/complete';
@@ -41,23 +42,44 @@ export class SubmitReportPage {
     this.navCtrl.push(CompletePage);
   }
 
-  takePicture(){
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
+  imageCapture(){
+    // const options: CameraOptions = {
+    //   quality: 100,
+    //   destinationType: this.camera.DestinationType.DATA_URL,
+    //   encodingType: this.camera.EncodingType.JPEG,
+    //   mediaType: this.camera.MediaType.PICTURE
+    // }
     
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64:
-     let base64Image = 'data:image/jpeg;base64,' + imageData;
-     let prev = <HTMLImageElement>document.getElementById('image');
-     prev.src = base64Image;
-    }, (err) => {
-     // Handle error
-    });
+    // this.camera.getPicture(options).then((imageData) => {
+    //  // imageData is either a base64 encoded string or a file URI
+    //  // If it's base64:
+    //  let base64Image = 'data:image/jpeg;base64,' + imageData;
+    //  let prev = <HTMLImageElement>document.getElementById('image');
+    //  prev.src = base64Image;
+    // }, (err) => {
+    //  // Handle error
+    // });
+    let options: CaptureImageOptions = { limit: 1 };
+    this.mediaCapture.captureImage(options).then(
+      (data: MediaFile[]) => {
+        let prev = <HTMLImageElement>document.getElementById('image');
+        prev.src = data[0].fullPath;
+        // console.log(prev.src);
+      },
+      (err: CaptureError) => console.error(err)
+    );
+  }
+
+  videoCapture(){
+    let options: CaptureVideoOptions = { limit: 1 };
+    this.mediaCapture.captureVideo(options).then(
+      (data: MediaFile[]) => {
+        let vidSrc = <HTMLSourceElement> document.getElementById('video-src');
+        vidSrc.src = data[0].fullPath;
+        console.log(vidSrc.src);
+      },
+      (err: CaptureError) => console.error(err)
+    );
   }
 
   addMedia() {
@@ -70,14 +92,15 @@ export class SubmitReportPage {
           icon: !this.platform.is('ios') ? 'camera' : null,
           handler: () => {
             // console.log('Camera Open');
-            this.takePicture();
+            this.imageCapture();
           }
         },
         {
           text: 'Record audio',
           icon: !this.platform.is('ios') ? 'mic' : null,
           handler: () => {
-            console.log('audio recorder open');
+            // console.log('audio recorder open');
+            this.videoCapture();
           }
         },
         {
