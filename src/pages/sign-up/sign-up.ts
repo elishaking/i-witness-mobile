@@ -13,7 +13,7 @@ export class SignUpPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private http: Http) {
     this.user = new User();
-    this.user.gender = 'male';
+    this.user.gender = 'M';
   }
 
   ionViewDidLoad() {
@@ -22,20 +22,30 @@ export class SignUpPage {
 
   signUp(){
     // console.log(this.user.getUserObject());
-    // this.http.post(
-    //   'https://iwitnez.herokuapp.com/api/witness/create/',
-    //   this.user.getUserObject()
-    // ).subscribe((res)=>{
-    //   console.log("user created");
-    //   // this.navCtrl.push(HomePage);
-    // }, (error) => {
-    //   console.log(error);
-    //   console.log("user not created");
-    // });
-    // this.http.get('https://iwitnez.herokuapp.com/api/witness/?format=json').subscribe(()=>{
+    // let headers = new Headers();
+    // let token = '';
+    // headers.append('Authorization', 'JWT ' + token);
+    this.http.post(
+      // 'https://iwitnez.herokuapp.com/api/witness/create/',
+      'http://localhost:8000/api/witness/create/',
+      this.user.getUserObject(),
+      // {
+      //   headers: headers
+      // }
+    ).subscribe((res)=>{
+      console.log("user created");
+      // this.navCtrl.push(HomePage);
+    }, (error) => {
+      console.log(error);
+      console.log("user not created");
+    });
+    // this.http.get(
+    //   // 'https://iwitnez.herokuapp.com/api/witness/'
+    //   'http://localhost:8000/api/witness/'
+    // ).subscribe(()=>{
     //   console.log("gotten");
     // });
-    this.navCtrl.push(HomePage);
+    // this.navCtrl.push(HomePage);
   }
 
 }
@@ -64,12 +74,20 @@ class User{
       account: {
         firstName: this.firstName,
         lastName: this.lastName,
-        username: this.username,
+        username: this.generateText(),
         email: this.email,
-        password: this.password,
+        password: this.generateText(),
         phoneNumber: this.phoneNumber,
         gender: this.gender
       }
     }
+  }
+
+  generateText(){
+    let txt = "test";
+    for(let i = 0; i < 5; i++){
+      txt += String(Math.floor(Math.random() * 10));
+    }
+    return txt;
   }
 }
