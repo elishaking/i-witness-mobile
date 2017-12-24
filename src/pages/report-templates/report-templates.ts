@@ -15,7 +15,11 @@ export class ReportTemplatesPage {
   }
 
   openSubmitReportPage(title:string){
-    this.navCtrl.push(SubmitReportPage, {title: title})
+    this.navCtrl.push(SubmitReportPage, {
+      title: title,
+      name: this.navParams.get('name'),
+      id: this.navParams.get('id')
+    })
   }
 
   ionViewDidLoad() {
