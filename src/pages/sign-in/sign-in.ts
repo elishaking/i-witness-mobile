@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { Http, Headers } from '@angular/http';
 
 import { HomePage } from '../home/home';
 
@@ -8,8 +9,12 @@ import { HomePage } from '../home/home';
   templateUrl: 'sign-in.html',
 })
 export class SignInPage {
+  email: string = 'a1554374';
+  password: string = 'a3276508';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  loginToken: string;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private http: Http) {
   }
 
   ionViewDidLoad() {
@@ -17,6 +22,22 @@ export class SignInPage {
   }
 
   signIn(){
-    this.navCtrl.setRoot(HomePage);
+    // let headers = new Headers();
+    // let token = '';
+    // headers.append('Authorization', 'JWT ' + token);
+    this.http.post(
+      'http://localhost:8000/api/witness/login/',
+      {
+        account: {
+          auth_field: this.email,
+          password: this.password
+        }
+      }
+    ).subscribe((res) => {
+      this.loginToken = res.json()['account']['token'];
+      this.navCtrl.setRoot(HomePage, {
+        'token': this.loginToken
+      });
+    })
   }
 }

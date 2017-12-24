@@ -22,9 +22,6 @@ export class SignUpPage {
 
   signUp(){
     // console.log(this.user.getUserObject());
-    // let headers = new Headers();
-    // let token = '';
-    // headers.append('Authorization', 'JWT ' + token);
     this.http.post(
       // 'https://iwitnez.herokuapp.com/api/witness/create/',
       'http://localhost:8000/api/witness/create/',
