@@ -47,7 +47,7 @@ export class SignUpPage {
 
 }
 
-class User{
+export class User{
   // firstName: string;
   // lastName: string;
   // username: string;
