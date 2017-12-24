@@ -65,8 +65,11 @@ export class SubmitReportPage {
         this.nFiles++;
         let mediaContainer = document.getElementById('media');
         let newImg = document.createElement('img');
+        newImg.setAttribute('width', "320");
+        newImg.setAttribute("height", "320");
         newImg.src = data[0].fullPath;
         mediaContainer.appendChild(newImg);
+        mediaContainer.appendChild(document.createElement('hr'));
         // let prev = <HTMLImageElement>document.getElementById('image');
         // prev.src = data[0].fullPath;
       },
@@ -82,11 +85,14 @@ export class SubmitReportPage {
         let mediaContainer = document.getElementById('media');
         let newVid = document.createElement('video');
         newVid.setAttribute('controls', 'true');
+        newVid.setAttribute('width', "320");
+        newVid.setAttribute("height", "320");
         // let vid = <HTMLVideoElement>document.getElementById('video');
         let source = document.createElement('source');
         source.setAttribute('src', data[0].fullPath);
         newVid.appendChild(source);
         mediaContainer.appendChild(newVid);
+        mediaContainer.appendChild(document.createElement('hr'));
         // vid.play();
         // console.log(vidSrc.src);
       },
@@ -107,6 +113,7 @@ export class SubmitReportPage {
         source.setAttribute('src', data[0].fullPath);
         newAud.appendChild(source);
         mediaContainer.appendChild(newAud);
+        mediaContainer.appendChild(document.createElement('hr'));
       },
       (err: CaptureError) => console.error(err)
     );
@@ -145,4 +152,9 @@ export class SubmitReportPage {
     })
     actionSheet.present();
   }
+}
+
+interface ReportMedia{
+  type: string;
+  path: string;
 }
