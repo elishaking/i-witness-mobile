@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
 import { User } from '../sign-up/sign-up';
+import { ReportTemplatesPage } from '../report-templates/report-templates';
 
 @Component({
   selector: 'page-home',
@@ -29,6 +30,13 @@ export class HomePage {
       this.witness = res.json();
       console.log(this.witness);
     });
+  }
+
+  addReport(){
+    this.navCtrl.push(ReportTemplatesPage, {
+      name: this.witness.account.first_name,
+      id: this.witness.account.witness
+    })
   }
 
 }
