@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform, NavController, NavParams } from 'ionic-angular';
+import { Http, Headers } from '@angular/http';
 import { ActionSheetController } from 'ionic-angular/components/action-sheet/action-sheet-controller';
 
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -16,17 +17,19 @@ import { CompletePage } from '../complete/complete';
 export class SubmitReportPage {
 
   nFiles = 0;
-  name = "Sign In";
-  signedIn = false;
+  name = "";
+  // signedIn = false;
   title:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     public platform: Platform, public actionsheetctrl: ActionSheetController,
-    private camera: Camera, private mediaCapture: MediaCapture) {
-    this.title = navParams.get('title');
+    private camera: Camera, private mediaCapture: MediaCapture, private http: Http) {
+    
   }
 
   ionViewDidLoad() {
+    this.title = this.navParams.get('title');
+    this.name = this.navParams.get('name');
     // console.log('ionViewDidLoad SubmitReportPage');
   }
 
@@ -35,7 +38,17 @@ export class SubmitReportPage {
   // }
 
   submitAsUser(){
-    this.navCtrl.push(CompletePage);
+    // this.loginToken = this.navParams.get('token');
+    let headers = new Headers();
+    headers.append('Authorization', 'JWT ' + this.navParams.get('token'));
+    this.http.post(
+      'http://localhost:8000/api/report/create/',
+      {},
+      { headers: headers }
+    ).subscribe((res) => {
+      console.log(res);
+      // this.navCtrl.push(CompletePage);
+    });
   }
 
   submitAsUnknown(){

@@ -35,7 +35,8 @@ export class HomePage {
   addReport(){
     this.navCtrl.push(ReportTemplatesPage, {
       name: this.witness.account.first_name,
-      id: this.witness.account.witness
+      id: this.witness.account.witness,
+      token: this.loginToken
     })
   }
 

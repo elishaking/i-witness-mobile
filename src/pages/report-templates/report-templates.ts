@@ -18,7 +18,8 @@ export class ReportTemplatesPage {
     this.navCtrl.push(SubmitReportPage, {
       title: title,
       name: this.navParams.get('name'),
-      id: this.navParams.get('id')
+      id: this.navParams.get('id'),
+      token: this.navParams.get('token')
     })
   }
 
