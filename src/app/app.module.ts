@@ -57,6 +57,6 @@ import { ReportTemplatesPage } from '../pages/report-templates/report-templates'
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Camera,
     MediaCapture
-  ]
+  ] 
 })
 export class AppModule {}

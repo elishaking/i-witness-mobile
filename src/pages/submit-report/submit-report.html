@@ -45,8 +45,10 @@
 
   <ion-item>
     <ion-label floating>Brief Description</ion-label>
-    <ion-textarea rows="5"></ion-textarea>
+    <ion-textarea rows="5" [(ngModel)]="description" ></ion-textarea>
   </ion-item>
+
+  <input name="file" type="file" style="display: none;" [(ngModel)]="media"/>
 
   <!-- <table id="send">
     <tr>
@@ -55,5 +57,5 @@
       <td><button ion-button clear (click)="submitAsUnknown()">Anonymous User</button></td>
     </tr>
   </table> -->
-  <button id="send" ion-button style="color: black;">Send</button>
+  <button id="send" ion-button style="color: black;" (click)="send()" >Send</button>
 </ion-content>

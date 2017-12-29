@@ -19,7 +19,11 @@ export class SubmitReportPage {
   nFiles = 0;
   name = "";
   // signedIn = false;
-  title:any;
+  title: string;
+  description: string;
+  headers: Headers;
+
+  media;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     public platform: Platform, public actionsheetctrl: ActionSheetController,
@@ -30,6 +34,9 @@ export class SubmitReportPage {
   ionViewDidLoad() {
     this.title = this.navParams.get('title');
     this.name = this.navParams.get('name');
+
+    this.headers = new Headers();
+    this.headers.append('Authorization', 'JWT ' + this.navParams.get('token'));
     // console.log('ionViewDidLoad SubmitReportPage');
   }
 
@@ -39,12 +46,10 @@ export class SubmitReportPage {
 
   submitAsUser(){
     // this.loginToken = this.navParams.get('token');
-    let headers = new Headers();
-    headers.append('Authorization', 'JWT ' + this.navParams.get('token'));
     this.http.post(
       'http://localhost:8000/api/report/create/',
       {},
-      { headers: headers }
+      { headers: this.headers }
     ).subscribe((res) => {
       console.log(res);
       // this.navCtrl.push(CompletePage);
@@ -81,6 +86,7 @@ export class SubmitReportPage {
         newImg.setAttribute('width', "320");
         newImg.setAttribute("height", "320");
         newImg.src = data[0].fullPath;
+        this.media = data[0].fullPath;
         mediaContainer.appendChild(newImg);
         mediaContainer.appendChild(document.createElement('hr'));
         // let prev = <HTMLImageElement>document.getElementById('image');
@@ -164,6 +170,42 @@ export class SubmitReportPage {
       ]
     })
     actionSheet.present();
+  }
+
+  send(){
+    // console.log(this.media);
+    this.http.post(
+      'http://localhost:8000/api/reports/create/',
+      {
+        title: this.title,
+        message: this.description,
+        location: '1',
+        witness: null
+      },
+      { headers: this.headers }
+    ).subscribe((res) => {
+      console.log('report created');
+      let report = res.json();
+      this.http.post(
+        'http://localhost:8000/api/media/create/',
+        {
+          // file: new File(),//this.media,
+          report: report.id | 1
+        },
+        { headers: this.headers }
+      )
+      // for(let i = 0; i < this.nFiles; i++){
+      //   this.http.post(
+      //     '',
+      //     {
+
+      //     },
+      //     { headers: this.headers }
+      //   ).subscribe((res) => {
+      //     console.log('media uploaded');
+      //   })
+      // }
+    });
   }
 }
 

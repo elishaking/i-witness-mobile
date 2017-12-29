@@ -9,8 +9,8 @@ import { HomePage } from '../home/home';
   templateUrl: 'sign-in.html',
 })
 export class SignInPage {
-  email: string = 'a1554374';
-  password: string = 'a3276508';
+  email: string = 'test101';
+  password: string = 'test12345';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private http: Http) {
   }
