@@ -38,11 +38,11 @@ export class SubmitReportPage {
     this.headers = new Headers();
     this.headers.append('Authorization', 'JWT ' + this.navParams.get('token'));
     // console.log('ionViewDidLoad SubmitReportPage');
-    let media = document.querySelector('input');
-    media.addEventListener('change', (ev)=>{
-      console.log(ev);
-      console.log(media.files);
-    })
+    // let media = document.querySelector('input');
+    // media.addEventListener('change', (ev)=>{
+    //   console.log(ev);
+    //   console.log(media.files);
+    // });
   }
 
   // addNewFile(){
@@ -190,8 +190,8 @@ export class SubmitReportPage {
       { headers: this.headers }
     ).subscribe((res) => {
       console.log('report created');
-      // let report = res.json();
-      // console.log('report', report);
+      let report = res.json();
+      console.log('report', report);
       // let media = <HTMLInputElement>document.getElementById('media');
       // // media.value = "C:\\Users\\KING\\Pictures\\IMG_20170122_111810.jpg"; //this.media;
       // console.log(media);
