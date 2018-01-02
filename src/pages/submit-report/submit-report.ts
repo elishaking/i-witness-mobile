@@ -7,6 +7,9 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { MediaCapture, MediaFile, CaptureError, 
   CaptureImageOptions, CaptureVideoOptions, CaptureAudioOptions } from '@ionic-native/media-capture';
 
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+// import { File } from '@ionic-native/file';
+
 import { AddReportFilePage } from '../add-report-file/add-report-file';
 import { CompletePage } from '../complete/complete';
 
@@ -27,7 +30,8 @@ export class SubmitReportPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     public platform: Platform, public actionsheetctrl: ActionSheetController,
-    private camera: Camera, private mediaCapture: MediaCapture, private http: Http) {
+    private camera: Camera, private mediaCapture: MediaCapture, private http: Http,
+    private transfer: FileTransfer) {
     
   }
 
@@ -52,7 +56,7 @@ export class SubmitReportPage {
   submitAsUser(){
     // this.loginToken = this.navParams.get('token');
     this.http.post(
-      'http://localhost:8000/api/report/create/',
+      'http://192.168.43.46:8000/api/report/create/',
       {},
       { headers: this.headers }
     ).subscribe((res) => {
@@ -177,10 +181,32 @@ export class SubmitReportPage {
     actionSheet.present();
   }
 
+  uploadFile(filepath, apiEndpoint){
+  //   let options: FileUploadOptions = {
+  //     fileKey: 'file',
+  //     fileName: 'IMG_20170122_111744.jpg',
+  //     headers: {}
+  //  }
+
+   const fileTransfer: FileTransferObject = this.transfer.create();
+   console.log('in uploadfile');
+
+    // Upload a file:
+    fileTransfer.upload(filepath, apiEndpoint).then((data) => {
+      // success
+      console.log('success');
+    }, (err) => {
+      // error
+      console.log('error');
+    }).catch(()=>{
+      console.log("caught error");
+    });
+  }
+
   send(){
     // console.log(this.media);
     this.http.post(
-      'http://localhost:8000/api/reports/create/',
+      'http://192.168.43.46:8000/api/reports/create/',
       {
         title: this.title,
         message: this.description,
@@ -192,13 +218,14 @@ export class SubmitReportPage {
       console.log('report created');
       let report = res.json();
       console.log('report', report);
+      this.uploadFile(this.media, 'http://192.168.43.46:8000/api/media/create/');
       // let media = <HTMLInputElement>document.getElementById('media');
       // // media.value = "C:\\Users\\KING\\Pictures\\IMG_20170122_111810.jpg"; //this.media;
       // console.log(media);
       // let mediaFile = media.files[0];
       // console.log(mediaFile);
       // this.http.post(
-      //   'http://localhost:8000/api/media/create/',
+      //   'http://192.168.43.46:8000/api/media/create/',
       //   {
       //     file: media,//this.media,
       //     report: report.id | 1
