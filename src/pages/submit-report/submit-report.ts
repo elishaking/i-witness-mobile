@@ -13,6 +13,8 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { AddReportFilePage } from '../add-report-file/add-report-file';
 import { CompletePage } from '../complete/complete';
 
+import { Dropbox } from '../../providers/dropbox/dropbox';
+
 @Component({
   selector: 'page-submit-report',
   templateUrl: 'submit-report.html',

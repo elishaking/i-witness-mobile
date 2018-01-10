@@ -9,7 +9,7 @@ import { Http, Headers } from '@angular/http';
   and Angular DI.
 */
 @Injectable()
-export class DropboxProvider {
+export class Dropbox {
 
   accessToken: any;
   folderHistory: any = [];
@@ -23,15 +23,56 @@ export class DropboxProvider {
   }
  
   getUserInfo(){
+    let headers = new Headers();
  
+    headers.append('Authorization', 'Bearer ' + this.accessToken);
+    headers.append('Content-Type', 'application/json');
+  
+    return this.http.post('https://api.dropboxapi.com/2-beta-2/users/get_current_account', "null", {headers: headers})
+      .subscribe(res => console.log(res.json()), err => console.log(err), () => console.log('complete'));
   }
  
   getFolders(path?){
+    let headers = new Headers();
+ 
+  headers.append('Authorization', 'Bearer ' + this.accessToken);
+  headers.append('Content-Type', 'application/json');
+ 
+  let folderPath;
+ 
+  if(typeof(path) == "undefined" || !path){
+ 
+    folderPath = {
+      path: ""
+    };   
+ 
+  } else {
+ 
+    folderPath = {
+      path: path
+    };
+ 
+    if(this.folderHistory[this.folderHistory.length - 1] != path){
+      this.folderHistory.push(path);
+    }
  
   }
  
-  goBackFolder(){
+  return this.http.post('https://api.dropboxapi.com/2-beta-2/files/list_folder', JSON.stringify(folderPath), {headers: headers})
+    .subscribe(res => console.log(res.json()), err => console.log(err), () => console.log('complete'));
+  }
  
+  goBackFolder(){
+    if(this.folderHistory.length > 0){
+ 
+      this.folderHistory.pop();
+      let path = this.folderHistory[this.folderHistory.length - 1];
+   
+      return this.getFolders(path);
+    }
+    else {
+      return this.getFolders();
+    }
   }
 
 }
