@@ -8,6 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';
 import { MediaCapture } from '@ionic-native/media-capture';
 import { FileTransfer } from '@ionic-native/file-transfer';
+import { Dropbox, DropboxProvider } from '../providers/dropbox/dropbox';
 
 
 import { MyApp } from './app.component';
@@ -58,7 +59,9 @@ import { ReportTemplatesPage } from '../pages/report-templates/report-templates'
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Camera,
     MediaCapture,
-    FileTransfer
+    FileTransfer,
+    Dropbox,
+    DropboxProvider
   ] 
 })
 export class AppModule {}
