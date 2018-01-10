@@ -21,7 +21,7 @@ export class SignInPage {
 
   signIn(){
     this.http.post(
-      'http://localhost:8000/api/witness/login/',
+      'http://192.168.43.46:8000/api/witness/login/',
       {
         account: {
           auth_field: this.email,

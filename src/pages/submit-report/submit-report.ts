@@ -26,7 +26,7 @@ export class SubmitReportPage {
   description: string;
   headers: Headers;
 
-  media;
+  media: MediaFile;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     public platform: Platform, public actionsheetctrl: ActionSheetController,
@@ -95,7 +95,7 @@ export class SubmitReportPage {
         newImg.setAttribute('width', "320");
         newImg.setAttribute("height", "320");
         newImg.src = data[0].fullPath;
-        this.media = data[0].fullPath;
+        this.media = data[0];
         mediaContainer.appendChild(newImg);
         mediaContainer.appendChild(document.createElement('hr'));
         // let prev = <HTMLImageElement>document.getElementById('image');
@@ -182,24 +182,27 @@ export class SubmitReportPage {
   }
 
   uploadFile(filepath, apiEndpoint){
-  //   let options: FileUploadOptions = {
-  //     fileKey: 'file',
-  //     fileName: 'IMG_20170122_111744.jpg',
-  //     headers: {}
-  //  }
+    let options: FileUploadOptions = {
+      fileKey: 'file',
+      // fileName: this.media.name,
+      // mimeType: this.media.type,
+      // headers: {
+      //   'Content-Type': 'image/jpeg'
+      // }
+      
+   }
 
    const fileTransfer: FileTransferObject = this.transfer.create();
    console.log('in uploadfile');
 
     // Upload a file:
-    fileTransfer.upload(filepath, apiEndpoint).then((data) => {
+    fileTransfer.upload(filepath, apiEndpoint, options, true).then((data) => {
       // success
-      console.log('success');
+      console.log('upload success');
     }, (err) => {
       // error
-      console.log('error');
-    }).catch(()=>{
-      console.log("caught error");
+      console.log('upload error');
+      console.log(err);
     });
   }
 
@@ -218,7 +221,7 @@ export class SubmitReportPage {
       console.log('report created');
       let report = res.json();
       console.log('report', report);
-      this.uploadFile(this.media, 'http://192.168.43.46:8000/api/media/create/');
+      this.uploadFile(this.media.fullPath, 'http://192.168.43.46:8000/api/media/create/');
       // let media = <HTMLInputElement>document.getElementById('media');
       // // media.value = "C:\\Users\\KING\\Pictures\\IMG_20170122_111810.jpg"; //this.media;
       // console.log(media);
@@ -243,6 +246,9 @@ export class SubmitReportPage {
       //     console.log('media uploaded');
       //   })
       // }
+    }, (error) => {
+      console.log('subscribe error');
+      console.log(error);
     });
   }
 }

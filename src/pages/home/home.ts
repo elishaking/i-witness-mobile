@@ -24,7 +24,7 @@ export class HomePage {
     let headers = new Headers();
     headers.append('Authorization', 'JWT ' + this.loginToken);
     this.http.get(
-      'http://localhost:8000/api/witness/' + this.navParams.get('id'),
+      'http://192.168.43.46:8000/api/witness/' + this.navParams.get('id'),
       { headers: headers }
     ).subscribe((res) => {
       this.witness = res.json();
