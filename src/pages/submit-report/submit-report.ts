@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, NavParams } from 'ionic-angular';
+import { Platform, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
 import { ActionSheetController } from 'ionic-angular/components/action-sheet/action-sheet-controller';
 
@@ -30,10 +30,13 @@ export class SubmitReportPage {
 
   media: MediaFile;
 
+  depth: number = 0;
+  folders: any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     public platform: Platform, public actionsheetctrl: ActionSheetController,
     private camera: Camera, private mediaCapture: MediaCapture, private http: Http,
-    private transfer: FileTransfer) {
+    private transfer: FileTransfer, public dropbox: Dropbox, public loadingCtrl: LoadingController) {
     
   }
 
@@ -49,6 +52,23 @@ export class SubmitReportPage {
     //   console.log(ev);
     //   console.log(media.files);
     // });
+ 
+    this.dropbox.setAccessToken("YOUR-ACCESS-TOKEN");
+    this.folders = [];
+
+    let loading = this.loadingCtrl.create({
+      content: 'Syncing from Dropbox...'
+    });
+
+    loading.present();
+
+    // .subscribe(res => console.log(res.json()), err => console.log(err), () => console.log('complete'));
+    this.dropbox.getFolders().subscribe(data => {
+      this.folders = data.json().entries;
+      loading.dismiss();
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   // addNewFile(){
@@ -184,21 +204,26 @@ export class SubmitReportPage {
   }
 
   uploadFile(filepath, apiEndpoint){
+    console.log('filename', this.media.fullPath.substr(this.media.fullPath.lastIndexOf('/') + 1));
     let options: FileUploadOptions = {
       fileKey: 'file',
+      // httpMethod: 'PUT',
+      fileName: this.media.fullPath.substr(this.media.fullPath.lastIndexOf('/') + 1),
       // fileName: this.media.name,
       // mimeType: this.media.type,
-      // headers: {
-      //   'Content-Type': 'image/jpeg'
-      // }
+      // chunkedMode: false,
+      headers: {
+        Connection: "close"
+        // 'Content-Type': 'image/jpeg'
+      }
       
    }
 
    const fileTransfer: FileTransferObject = this.transfer.create();
-   console.log('in uploadfile');
+  //  console.log('in uploadfile');
 
     // Upload a file:
-    fileTransfer.upload(filepath, apiEndpoint, options, true).then((data) => {
+    fileTransfer.upload(filepath, encodeURI(apiEndpoint), options, true).then((data) => {
       // success
       console.log('upload success');
     }, (err) => {

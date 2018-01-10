@@ -28,38 +28,36 @@ export class Dropbox {
     headers.append('Authorization', 'Bearer ' + this.accessToken);
     headers.append('Content-Type', 'application/json');
   
-    return this.http.post('https://api.dropboxapi.com/2-beta-2/users/get_current_account', "null", {headers: headers})
-      .subscribe(res => console.log(res.json()), err => console.log(err), () => console.log('complete'));
+    return this.http.post('https://api.dropboxapi.com/2-beta-2/users/get_current_account', "null", {headers: headers});
   }
  
   getFolders(path?){
     let headers = new Headers();
  
-  headers.append('Authorization', 'Bearer ' + this.accessToken);
-  headers.append('Content-Type', 'application/json');
- 
-  let folderPath;
- 
-  if(typeof(path) == "undefined" || !path){
- 
-    folderPath = {
-      path: ""
-    };   
- 
-  } else {
- 
-    folderPath = {
-      path: path
-    };
- 
-    if(this.folderHistory[this.folderHistory.length - 1] != path){
-      this.folderHistory.push(path);
+    headers.append('Authorization', 'Bearer ' + this.accessToken);
+    headers.append('Content-Type', 'application/json');
+  
+    let folderPath;
+  
+    if(typeof(path) == "undefined" || !path){
+  
+      folderPath = {
+        path: ""
+      };   
+  
+    } else {
+  
+      folderPath = {
+        path: path
+      };
+  
+      if(this.folderHistory[this.folderHistory.length - 1] != path){
+        this.folderHistory.push(path);
+      }
+  
     }
- 
-  }
- 
-  return this.http.post('https://api.dropboxapi.com/2-beta-2/files/list_folder', JSON.stringify(folderPath), {headers: headers})
-    .subscribe(res => console.log(res.json()), err => console.log(err), () => console.log('complete'));
+  
+    return this.http.post('https://api.dropboxapi.com/2-beta-2/files/list_folder', JSON.stringify(folderPath), {headers: headers});
   }
  
   goBackFolder(){
