@@ -28,11 +28,12 @@ export class SignInPage {
           password: this.password
         }
       }
-    ).subscribe((res) => {
-      let account = res.json()['account'];
+    ).subscribe((witness) => {
+      let witnessData = witness.json();
+      let accountData = witnessData.account;
       this.navCtrl.push(HomePage, {
-        'token': account['token'],
-        'id': account['id']
+        'id': witnessData.id,
+        'token': accountData.token
       });
     });
   }

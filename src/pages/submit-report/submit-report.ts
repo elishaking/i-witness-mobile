@@ -23,6 +23,7 @@ export class SubmitReportPage {
   nFiles = 0;
   name = "";
   // signedIn = false;
+  token: string;
   title: string;
   description: string;
   headers: Headers;
