@@ -11,7 +11,6 @@ import {
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File as IonicFile } from '@ionic-native/file';
 
-import { AddReportFilePage } from '../add-report-file/add-report-file';
 import { CompletePage } from '../complete/complete';
 
 // import Dropbox = require('../../../node_modules/dropbox/src/index');
@@ -30,9 +29,6 @@ export class SubmitReportPage {
 
   media: MediaFile;
 
-  depth: number = 0;
-  folders: any;
-
   // dbx: Dropbox;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -44,10 +40,10 @@ export class SubmitReportPage {
   }
 
   ionViewDidLoad() {
-    // this.title = this.navParams.get('title');
-    // this.name = this.navParams.get('name');
-    this.title = 'new report';
-    this.description = 'description';
+    this.title = this.navParams.get('title');
+    this.name = this.navParams.get('name');
+    // this.title = 'new report';
+    // this.description = 'description';
 
     this.headers = new Headers();
     this.headers.append('Authorization', 'JWT ' + this.navParams.get('token'));
@@ -57,22 +53,6 @@ export class SubmitReportPage {
     //   clientId: '',
     //   selectUser: ''
     // });
-  }
-
-  submitAsUser() {
-    // this.loginToken = this.navParams.get('token');
-    this.http.post(
-      'http://192.168.43.46:8000/api/report/create/',
-      {},
-      { headers: this.headers }
-    ).subscribe((res) => {
-      console.log(res);
-      // this.navCtrl.push(CompletePage);
-    });
-  }
-
-  submitAsUnknown() {
-    this.navCtrl.push(CompletePage);
   }
 
   imageCapture() {

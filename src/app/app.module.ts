@@ -17,7 +17,6 @@ import { LandingPage } from '../pages/landing/landing';
 import { SignInPage } from '../pages/sign-in/sign-in';
 import { SignUpPage } from '../pages/sign-up/sign-up';
 import { AccountSettingsPage } from '../pages/account-settings/account-settings';
-import { AddReportFilePage } from '../pages/add-report-file/add-report-file';
 import { SubmitReportPage } from '../pages/submit-report/submit-report';
 import { CompletePage } from '../pages/complete/complete';
 import { ReportTemplatesPage } from '../pages/report-templates/report-templates';
@@ -30,7 +29,6 @@ import { ReportTemplatesPage } from '../pages/report-templates/report-templates'
     SignInPage,
     SignUpPage,
     AccountSettingsPage,
-    AddReportFilePage,
     SubmitReportPage,
     CompletePage,
     ReportTemplatesPage,
@@ -48,7 +46,6 @@ import { ReportTemplatesPage } from '../pages/report-templates/report-templates'
     SignInPage,
     SignUpPage,
     AccountSettingsPage,
-    AddReportFilePage,
     SubmitReportPage,
     CompletePage,
     ReportTemplatesPage,
