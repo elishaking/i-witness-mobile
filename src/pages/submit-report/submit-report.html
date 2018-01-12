@@ -27,20 +27,35 @@
     <p>{{ nFiles }} added</p>
   </ion-item>
 
-  <ion-card>
-      <h3>Preview media</h3>
-    </ion-card>
+  <!-- <ion-slides>
+    <ion-slide *ngFor="let newMedia of medias; let i = index">
+      <ion-card>
+
+      </ion-card>
+    </ion-slide>
+  </ion-slides> -->
+  <ion-card id="media">
+    <!-- <img id="image" alt="Preview"/> -->
+    <!-- <video id="video" width="320" height="240" controls> -->
+      <!-- <source id="video-src" src="" type="video/mp4"> -->
+      <!-- <source src="movie.ogg" type="video/ogg"> -->
+    <!-- Video not supported -->
+    <!-- </video> -->
+  </ion-card>
 
   <ion-item>
     <ion-label floating>Brief Description</ion-label>
-    <ion-textarea rows="5"></ion-textarea>
+    <ion-textarea rows="5" [(ngModel)]="description" ></ion-textarea>
   </ion-item>
 
-  <table id="send">
+  <!-- <input id="media" name="file" type="file"/> -->
+
+  <!-- <table id="send">
     <tr>
       <td><button ion-button clear disabled style="color: black;">Send as</button></td>
       <td><button ion-button round (click)="submitAsUser()">{{ name }}</button></td>
       <td><button ion-button clear (click)="submitAsUnknown()">Anonymous User</button></td>
     </tr>
-  </table>
+  </table> -->
+  <button id="send" ion-button style="color: black;" (click)="send()" >Send</button>
 </ion-content>
