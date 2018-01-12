@@ -4,6 +4,8 @@ import { Http, Headers } from '@angular/http';
 import { User } from '../sign-up/sign-up';
 import { ReportTemplatesPage } from '../report-templates/report-templates';
 
+import { Witness } from '../../models/models';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -45,19 +47,3 @@ export class HomePage {
 
 //   }
 // }
-
-export interface Witness{
-  id,
-  account: {
-    first_name: string,
-    last_name: string,
-    username: string,
-    email: string,
-    gender: string,
-    phone_number: null,
-    image: string,
-    witness: number,
-    officer: number
-  },
-  reports
-}

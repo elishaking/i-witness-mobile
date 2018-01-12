@@ -12,7 +12,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File as IonicFile } from '@ionic-native/file';
 
 import { CompletePage } from '../complete/complete';
-import { Witness } from '../home/home';
+import { Witness } from '../../models/models';
 
 // import Dropbox = require('../../../node_modules/dropbox/src/index');
 
