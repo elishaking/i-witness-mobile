@@ -8,12 +8,13 @@ import { LandingPage } from '../pages/landing/landing';
 import { ReportTemplatesPage } from '../pages/report-templates/report-templates';
 import { SignUpPage } from '../pages/sign-up/sign-up';
 import { SignInPage } from '../pages/sign-in/sign-in';
+import { SubmitReportPage } from '../pages/submit-report/submit-report';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = SignInPage;
+  rootPage:any = SubmitReportPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
