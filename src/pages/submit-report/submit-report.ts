@@ -4,23 +4,23 @@ import { Http, Headers } from '@angular/http';
 import { ActionSheetController } from 'ionic-angular/components/action-sheet/action-sheet-controller';
 
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { MediaCapture, MediaFile, CaptureError, 
-  CaptureImageOptions, CaptureVideoOptions, CaptureAudioOptions } from '@ionic-native/media-capture';
-
+import {
+  MediaCapture, MediaFile, CaptureError,
+  CaptureImageOptions, CaptureVideoOptions, CaptureAudioOptions
+} from '@ionic-native/media-capture';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
-// import { File } from '@ionic-native/file';
+import { File as IonicFile } from '@ionic-native/file';
 
 import { AddReportFilePage } from '../add-report-file/add-report-file';
 import { CompletePage } from '../complete/complete';
 
-import { Dropbox } from '../../providers/dropbox/dropbox';
+import Dropbox = require('../../../node_modules/dropbox/src/index');
 
 @Component({
   selector: 'page-submit-report',
   templateUrl: 'submit-report.html',
 })
 export class SubmitReportPage {
-
   nFiles = 0;
   name = "";
   // signedIn = false;
@@ -33,49 +33,33 @@ export class SubmitReportPage {
   depth: number = 0;
   folders: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
+  dbx: Dropbox;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,
     public platform: Platform, public actionsheetctrl: ActionSheetController,
     private camera: Camera, private mediaCapture: MediaCapture, private http: Http,
-    private transfer: FileTransfer, public dropbox: Dropbox, public loadingCtrl: LoadingController) {
-    
+    private transfer: FileTransfer, public loadingCtrl: LoadingController,
+    private file: IonicFile) {
+
   }
 
   ionViewDidLoad() {
-    this.title = this.navParams.get('title');
-    this.name = this.navParams.get('name');
+    // this.title = this.navParams.get('title');
+    // this.name = this.navParams.get('name');
+    this.title = 'new report';
+    this.description = 'description';
 
     this.headers = new Headers();
     this.headers.append('Authorization', 'JWT ' + this.navParams.get('token'));
-    // console.log('ionViewDidLoad SubmitReportPage');
-    // let media = document.querySelector('input');
-    // media.addEventListener('change', (ev)=>{
-    //   console.log(ev);
-    //   console.log(media.files);
-    // });
- 
-    this.dropbox.setAccessToken("YOUR-ACCESS-TOKEN");
-    this.folders = [];
 
-    let loading = this.loadingCtrl.create({
-      content: 'Syncing from Dropbox...'
-    });
-
-    loading.present();
-
-    // .subscribe(res => console.log(res.json()), err => console.log(err), () => console.log('complete'));
-    this.dropbox.getFolders().subscribe(data => {
-      this.folders = data.json().entries;
-      loading.dismiss();
-    }, (err) => {
-      console.log(err);
+    this.dbx = new Dropbox({
+      accessToken: 'SE7xfW446lgAAAAAAAACCFc_vnloZ-IknQL2rVPwE3BDzs0Gg___2WJRYNP7wDos',
+      clientId: '',
+      selectUser: ''
     });
   }
 
-  // addNewFile(){
-  //   this.navCtrl.push(AddReportFilePage);
-  // }
-
-  submitAsUser(){
+  submitAsUser() {
     // this.loginToken = this.navParams.get('token');
     this.http.post(
       'http://192.168.43.46:8000/api/report/create/',
@@ -87,18 +71,18 @@ export class SubmitReportPage {
     });
   }
 
-  submitAsUnknown(){
+  submitAsUnknown() {
     this.navCtrl.push(CompletePage);
   }
 
-  imageCapture(){
+  imageCapture() {
     // const options: CameraOptions = {
     //   quality: 100,
     //   destinationType: this.camera.DestinationType.DATA_URL,
     //   encodingType: this.camera.EncodingType.JPEG,
     //   mediaType: this.camera.MediaType.PICTURE
     // }
-    
+
     // this.camera.getPicture(options).then((imageData) => {
     //  // imageData is either a base64 encoded string or a file URI
     //  // If it's base64:
@@ -120,6 +104,7 @@ export class SubmitReportPage {
         this.media = data[0];
         mediaContainer.appendChild(newImg);
         mediaContainer.appendChild(document.createElement('hr'));
+
         // let prev = <HTMLImageElement>document.getElementById('image');
         // prev.src = data[0].fullPath;
       },
@@ -127,7 +112,7 @@ export class SubmitReportPage {
     );
   }
 
-  videoCapture(){
+  videoCapture() {
     let options: CaptureVideoOptions = { limit: 1 };
     this.mediaCapture.captureVideo(options).then(
       (data: MediaFile[]) => {
@@ -150,7 +135,7 @@ export class SubmitReportPage {
     );
   }
 
-  audioCapture(){
+  audioCapture() {
     let options: CaptureAudioOptions = { limit: 1 };
     this.mediaCapture.captureAudio(options).then(
       (data: MediaFile[]) => {
@@ -203,7 +188,7 @@ export class SubmitReportPage {
     actionSheet.present();
   }
 
-  uploadFile(filepath, apiEndpoint){
+  uploadFile(filepath, apiEndpoint) {
     console.log('filename', this.media.fullPath.substr(this.media.fullPath.lastIndexOf('/') + 1));
     let options: FileUploadOptions = {
       fileKey: 'file',
@@ -216,11 +201,11 @@ export class SubmitReportPage {
         Connection: "close"
         // 'Content-Type': 'image/jpeg'
       }
-      
-   }
 
-   const fileTransfer: FileTransferObject = this.transfer.create();
-  //  console.log('in uploadfile');
+    }
+
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    //  console.log('in uploadfile');
 
     // Upload a file:
     fileTransfer.upload(filepath, encodeURI(apiEndpoint), options, true).then((data) => {
@@ -233,54 +218,77 @@ export class SubmitReportPage {
     });
   }
 
-  send(){
-    // console.log(this.media);
-    this.http.post(
-      'http://192.168.43.46:8000/api/reports/create/',
-      {
-        title: this.title,
-        message: this.description,
-        location: '1',
-        witness: null
-      },
-      { headers: this.headers }
-    ).subscribe((res) => {
-      console.log('report created');
-      let report = res.json();
-      console.log('report', report);
-      this.uploadFile(this.media.fullPath, 'http://192.168.43.46:8000/api/media/create/');
-      // let media = <HTMLInputElement>document.getElementById('media');
-      // // media.value = "C:\\Users\\KING\\Pictures\\IMG_20170122_111810.jpg"; //this.media;
-      // console.log(media);
-      // let mediaFile = media.files[0];
-      // console.log(mediaFile);
-      // this.http.post(
-      //   'http://192.168.43.46:8000/api/media/create/',
-      //   {
-      //     file: media,//this.media,
-      //     report: report.id | 1
-      //   },
-      //   { headers: this.headers }
-      // )
-      // for(let i = 0; i < this.nFiles; i++){
-      //   this.http.post(
-      //     '',
-      //     {
+  send() {
+    // this.listDropboxfolders();
+    this.file.readAsDataURL(this.media.fullPath.replace(this.media.name, ''), this.media.name)
+      .then((data) => {
+        this.http.post(
+          'http://192.168.43.46:8000/api/reports/create/',
+          {
+            title: this.title,
+            message: this.description,
+            location: '1',
+            witness: null
+          },
+          // { headers: this.headers }
+        ).subscribe((reportResponse) => {
+          console.log('report id:', reportResponse.json().id);
+          this.http.post(
+            'http://192.168.43.46:8000/api/media/create/',
+            {
+              file: data,
+              filename: 'report.' + this.media.name.split('.')[1],  //fix - use lastindexof
+              report: reportResponse.json().id
+            }
+          ).subscribe((res) => {
+            console.log('uploaded file');
+            console.log(res);
+          }, (err)=>{
+            console.log('upload error');
+            console.log(err);
+          });
+        });
+        
+        // ).subscribe((res) => {
+        //   let report = res.json();
+        //   this.http.post(
+        //     'http://192.168.43.46:8000/api/media/create/',
+        //     {
+        //       file: f
+        //     }
+        //   ).subscribe((res) => {
+        //     console.log('uploaded file');
+        //     console.log(res);
+        //   }, (err)=>{
+        //     console.log('upload error');
+        //     console.log(err);
+        //   });
+        // }, (error) => {
+        //   console.log('subscribe error');
+        //   console.log(error);
+        // });
+      })
+      .catch(r => console.log('error: ', r));
+  }
 
-      //     },
-      //     { headers: this.headers }
-      //   ).subscribe((res) => {
-      //     console.log('media uploaded');
-      //   })
-      // }
-    }, (error) => {
-      console.log('subscribe error');
-      console.log(error);
+  listDropboxfolders(path = ''){
+    this.dbx.filesListFolder({
+      path: '',
+      recursive: false,
+      include_media_info: false,
+      include_deleted: false,
+      include_has_explicit_shared_members: false
+    }).then(function(response) {
+      // console.log(response.entries);
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.error(error);
     });
   }
 }
 
-interface ReportMedia{
+interface ReportMedia {
   type: string;
   path: string;
 }
