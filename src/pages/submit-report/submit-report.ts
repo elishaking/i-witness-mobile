@@ -38,12 +38,12 @@ export class SubmitReportPage {
     private camera: Camera, private mediaCapture: MediaCapture, private http: Http,
     private transfer: FileTransfer, public loadingCtrl: LoadingController,
     private file: IonicFile) {
-
+    this.witness = this.navParams.get('witness');
+    this.report = {title: '', message: '', location: 'i', witness: this.witness.id || null};
+    this.report.title = this.navParams.get('title');
   }
 
   ionViewDidLoad() {
-    this.report.title = this.navParams.get('title');
-    this.witness = this.navParams.get('witness');
     // this.report.title = 'new report';
     // this.report.message = 'message';
 
@@ -185,44 +185,60 @@ export class SubmitReportPage {
   }
 
   send() {
-    this.file.readAsDataURL(this.media.fullPath.replace(this.media.name, ''), this.media.name)
-      .then(
-        (data) => {
+    let loading = this.loadingCtrl.create({
+      content: 'Sending Report...'
+    });
+    let timeout = setTimeout(()=>{
+      loading.dismiss();
+    }, 10000);
+
+    // this.file.readAsDataURL(this.media.fullPath.replace(this.media.name, ''), this.media.name)
+    //   .then(
+        // (data) => {
           let reportBody = {
             title: this.report.title,
             message: this.report.message,
-            location: '1',
-            witness: this.witness.id
+            location: this.report.location,
+            witness: this.report.witness
           };
+          console.log(reportBody);
           this.http.post(
             'http://192.168.43.46:8000/api/reports/create/', reportBody,
             // { headers: this.headers }
           ).subscribe(
-              (reportResponse) => {
-                let mediaBody = {
-                  file: data,
-                  filename: 'report.' + this.media.name.split('.')[1],  //fix - use lastindexof
-                  report: reportResponse.json().id
-                };
-                this.http.post(
-                  'http://192.168.43.46:8000/api/media/create/', mediaBody
-                ).subscribe(
-                    (res) => {
-                      // console.log('uploaded file');
-                      // console.log(res);
-                    }, 
-                    (err)=>{
-                      // console.log('upload error');
-                      // console.log(err);
-                    }
-                );
+              (report) => {
+                console.log(report);
+                // let mediaBody = {
+                //   file: data,
+                //   filename: 'report.' + this.media.name.split('.')[1],  //fix - use lastindexof
+                //   report: report.json().id
+                // };
+                // this.http.post(
+                //   'http://192.168.43.46:8000/api/media/create/', mediaBody
+                // ).subscribe(
+                //     (res) => {
+                //       // console.log('uploaded file');
+                //       // console.log(res);
+                //     }, 
+                //     (err)=>{
+                //       // console.log('upload error');
+                //       // console.log(err);
+                //     }
+                // );
+              },
+              (error) => {
+
+              },
+              () =>{
+                loading.dismiss();
+                clearTimeout(timeout);
               }
             );
-        }
-      ).catch((r) => {
-        // console.log('error: ', r);
-        }
-      );
+        // }
+      // ).catch((r) => {
+      //   // console.log('error: ', r);
+      //   }
+      // );
   }
 
   // listDropboxfolders(path = ''){

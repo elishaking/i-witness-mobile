@@ -4,7 +4,7 @@ export interface Account {
     username: string,
     email: string,
     gender: string,
-    phone_number: null,
+    phone_number: string,
     image: string,
     witness: number,
     officer: number

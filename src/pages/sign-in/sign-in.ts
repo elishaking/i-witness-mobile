@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { Http } from '@angular/http';
 
 import { HomePage } from '../home/home';
@@ -12,7 +12,8 @@ export class SignInPage {
   email: string = 'test101';
   password: string = 'test12345';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private http: Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private http: Http,
+    private loadingCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
@@ -20,6 +21,14 @@ export class SignInPage {
   }
 
   signIn(){
+    let loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    loading.present();
+    let timeout = setTimeout(()=>{
+      loading.dismiss();
+    }, 10000);
+
     this.http.post(
       'http://192.168.43.46:8000/api/witness/login/',
       {
@@ -31,7 +40,6 @@ export class SignInPage {
     ).subscribe(
       (witness) => {
         let witnessData = witness.json();
-        console.log('witness', witnessData);
         this.navCtrl.push(
           HomePage, 
           {
@@ -40,8 +48,12 @@ export class SignInPage {
         );
       },
       (error) => {
-        console.log('subscribe error');
-        console.log(error);
+        // console.log('subscribe error');
+        // console.log(error);
+      },
+      () =>{
+        loading.dismiss();
+        clearTimeout(timeout);
       }
     );
   }
