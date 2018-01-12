@@ -48,7 +48,7 @@ export class SubmitReportPage {
     // this.report.message = 'message';
 
     this.headers = new Headers();
-    this.headers.append('Authorization', 'JWT ' + this.witness.token);
+    // this.headers.append('Authorization', 'JWT ' + this.witness.token);
 
     // this.dbx = new Dropbox({
     //   accessToken: 'SE7xfW446lgAAAAAAAACCFc_vnloZ-IknQL2rVPwE3BDzs0Gg___2WJRYNP7wDos',
@@ -195,9 +195,8 @@ export class SubmitReportPage {
             witness: this.witness.id
           };
           this.http.post(
-            'http://192.168.43.46:8000/api/reports/create/',
-            reportBody,
-            { headers: this.headers }
+            'http://192.168.43.46:8000/api/reports/create/', reportBody,
+            // { headers: this.headers }
           ).subscribe(
               (reportResponse) => {
                 let mediaBody = {

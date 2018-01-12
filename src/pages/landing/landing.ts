@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { SignInPage } from '../sign-in/sign-in';
 import { SignUpPage } from '../sign-up/sign-up';
-import { SubmitReportPage } from '../submit-report/submit-report';
+import { ReportTemplatesPage } from '../report-templates/report-templates';
 
 @Component({
   selector: 'page-landing',
@@ -19,7 +19,7 @@ export class LandingPage {
   }
 
   createReport(){
-    this.navCtrl.push(SubmitReportPage);
+    this.navCtrl.push(ReportTemplatesPage);
   }
 
   signIn(){
