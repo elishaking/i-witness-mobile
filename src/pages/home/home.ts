@@ -21,6 +21,7 @@ export class HomePage {
   }
 
   ionViewDidLoad(){
+    this.witness = this.navParams.get('witness');
     // this.loginToken = this.navParams.get('token');
     // let headers = new Headers();
     // headers.append('Authorization', 'JWT ' + this.loginToken);
@@ -35,7 +36,7 @@ export class HomePage {
 
   addReport(){
     this.navCtrl.push(ReportTemplatesPage, {
-      witness: this.navParams.get('witness')
+      witness: this.witness
     })
   }
 
