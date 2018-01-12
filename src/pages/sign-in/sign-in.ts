@@ -30,7 +30,7 @@ export class SignInPage {
       }
     ).subscribe((res) => {
       let account = res.json()['account'];
-      this.navCtrl.setRoot(HomePage, {
+      this.navCtrl.push(HomePage, {
         'token': account['token'],
         'id': account['id']
       });
