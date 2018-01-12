@@ -203,37 +203,45 @@ export class SubmitReportPage {
   }
 
   send() {
-    // this.listDropboxfolders();
     this.file.readAsDataURL(this.media.fullPath.replace(this.media.name, ''), this.media.name)
-      .then((data) => {
-        this.http.post(
-          'http://192.168.43.46:8000/api/reports/create/',
-          {
+      .then(
+        (data) => {
+          let reportBody = {
             title: this.title,
             message: this.description,
             location: '1',
             witness: null
-          },
-          // { headers: this.headers }
-        ).subscribe((reportResponse) => {
-          console.log('report id:', reportResponse.json().id);
+          };
           this.http.post(
-            'http://192.168.43.46:8000/api/media/create/',
-            {
-              file: data,
-              filename: 'report.' + this.media.name.split('.')[1],  //fix - use lastindexof
-              report: reportResponse.json().id
-            }
-          ).subscribe((res) => {
-            console.log('uploaded file');
-            console.log(res);
-          }, (err)=>{
-            console.log('upload error');
-            console.log(err);
-          });
-        });
-      })
-      .catch(r => console.log('error: ', r));
+            'http://192.168.43.46:8000/api/reports/create/',
+            reportBody,
+            { headers: this.headers }
+          ).subscribe(
+              (reportResponse) => {
+                let mediaBody = {
+                  file: data,
+                  filename: 'report.' + this.media.name.split('.')[1],  //fix - use lastindexof
+                  report: reportResponse.json().id
+                };
+                this.http.post(
+                  'http://192.168.43.46:8000/api/media/create/', mediaBody
+                ).subscribe(
+                    (res) => {
+                      // console.log('uploaded file');
+                      // console.log(res);
+                    }, 
+                    (err)=>{
+                      // console.log('upload error');
+                      // console.log(err);
+                    }
+                );
+              }
+            );
+        }
+      ).catch((r) => {
+        // console.log('error: ', r);
+        }
+      );
   }
 
   // listDropboxfolders(path = ''){
