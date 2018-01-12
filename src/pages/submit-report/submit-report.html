@@ -10,7 +10,7 @@
 <ion-content padding>
   <!-- <ion-item> -->
     <div floating id="title">
-      <h2> {{ title }}  </h2>
+      <h2> {{ report.title }}  </h2>
     </div>
   <!-- </ion-item> -->
 
@@ -44,8 +44,8 @@
   </ion-card>
 
   <ion-item>
-    <ion-label floating>Brief Description</ion-label>
-    <ion-textarea rows="5" [(ngModel)]="description" ></ion-textarea>
+    <ion-label floating>Brief Message</ion-label>
+    <ion-textarea rows="5" [(ngModel)]="report.message" ></ion-textarea>
   </ion-item>
 
   <!-- <input id="media" name="file" type="file"/> -->

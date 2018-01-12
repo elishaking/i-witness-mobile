@@ -12,7 +12,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File as IonicFile } from '@ionic-native/file';
 
 import { CompletePage } from '../complete/complete';
-import { Witness } from '../../models/models';
+import { Witness, Report } from '../../models/models';
 
 // import Dropbox = require('../../../node_modules/dropbox/src/index');
 
@@ -21,10 +21,10 @@ import { Witness } from '../../models/models';
   templateUrl: 'submit-report.html',
 })
 export class SubmitReportPage {
-  nFiles = 0;
-  title: string;
-  description: string;
   headers: Headers;
+
+  report: Report;
+  nFiles = 0;
 
   // signedIn = false;
   witness: Witness;
@@ -42,13 +42,13 @@ export class SubmitReportPage {
   }
 
   ionViewDidLoad() {
-    this.title = this.navParams.get('title');
-    this.witness = this.navParams.get('witness')
-    // this.title = 'new report';
-    // this.description = 'description';
+    this.report.title = this.navParams.get('title');
+    this.witness = this.navParams.get('witness');
+    // this.report.title = 'new report';
+    // this.report.message = 'message';
 
     this.headers = new Headers();
-    this.headers.append('Authorization', 'JWT ' + this.navParams.get('token'));
+    this.headers.append('Authorization', 'JWT ' + this.witness.token);
 
     // this.dbx = new Dropbox({
     //   accessToken: 'SE7xfW446lgAAAAAAAACCFc_vnloZ-IknQL2rVPwE3BDzs0Gg___2WJRYNP7wDos',
@@ -189,8 +189,8 @@ export class SubmitReportPage {
       .then(
         (data) => {
           let reportBody = {
-            title: this.title,
-            message: this.description,
+            title: this.report.title,
+            message: this.report.message,
             location: '1',
             witness: this.witness.id
           };

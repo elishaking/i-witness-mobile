@@ -19,6 +19,7 @@ export interface Report{
 
 export interface Witness {
     id: number,
+    token: string,
     account: Account,
     // reports: Report[]
 }
