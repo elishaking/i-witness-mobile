@@ -13,30 +13,27 @@ export class HomePage {
   // lastName = "Elisha";
   // phoneNumber = "+2348119230123";
   witness: Witness;
-  loginToken: string;
 
   constructor(public navCtrl: NavController, private navParams: NavParams, private http: Http) {
     
   }
 
   ionViewDidLoad(){
-    this.loginToken = this.navParams.get('token');
-    let headers = new Headers();
-    headers.append('Authorization', 'JWT ' + this.loginToken);
-    this.http.get(
-      'http://192.168.43.46:8000/api/witness/' + this.navParams.get('id'),
-      { headers: headers }
-    ).subscribe((res) => {
-      this.witness = res.json();
-      console.log(this.witness);
-    });
+    // this.loginToken = this.navParams.get('token');
+    // let headers = new Headers();
+    // headers.append('Authorization', 'JWT ' + this.loginToken);
+    // this.http.get(
+    //   'http://192.168.43.46:8000/api/witness/' + this.navParams.get('id'),
+    //   { headers: headers }
+    // ).subscribe((res) => {
+    //   this.witness = res.json();
+    //   console.log(this.witness);
+    // });
   }
 
   addReport(){
     this.navCtrl.push(ReportTemplatesPage, {
-      name: this.witness.account.first_name,
-      id: this.witness.account.witness,
-      token: this.loginToken
+      witness: this.navParams.get('witness')
     })
   }
 
@@ -49,7 +46,8 @@ export class HomePage {
 //   }
 // }
 
-interface Witness{
+export interface Witness{
+  id,
   account: {
     first_name: string,
     last_name: string,

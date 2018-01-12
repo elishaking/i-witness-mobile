@@ -12,6 +12,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File as IonicFile } from '@ionic-native/file';
 
 import { CompletePage } from '../complete/complete';
+import { Witness } from '../home/home';
 
 // import Dropbox = require('../../../node_modules/dropbox/src/index');
 
@@ -21,12 +22,12 @@ import { CompletePage } from '../complete/complete';
 })
 export class SubmitReportPage {
   nFiles = 0;
-  name = "";
-  // signedIn = false;
-  token: string;
   title: string;
   description: string;
   headers: Headers;
+
+  // signedIn = false;
+  witness: Witness;
 
   media: MediaFile;
 
@@ -42,7 +43,7 @@ export class SubmitReportPage {
 
   ionViewDidLoad() {
     this.title = this.navParams.get('title');
-    this.name = this.navParams.get('name');
+    this.witness = this.navParams.get('witness')
     // this.title = 'new report';
     // this.description = 'description';
 
@@ -191,7 +192,7 @@ export class SubmitReportPage {
             title: this.title,
             message: this.description,
             location: '1',
-            witness: null
+            witness: this.witness.id
           };
           this.http.post(
             'http://192.168.43.46:8000/api/reports/create/',

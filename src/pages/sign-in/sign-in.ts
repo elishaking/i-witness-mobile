@@ -30,10 +30,8 @@ export class SignInPage {
       }
     ).subscribe((witness) => {
       let witnessData = witness.json();
-      let accountData = witnessData.account;
       this.navCtrl.push(HomePage, {
-        'id': witnessData.id,
-        'token': accountData.token
+        'witness': witnessData
       });
     });
   }
