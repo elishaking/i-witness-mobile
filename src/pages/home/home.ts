@@ -17,11 +17,10 @@ export class HomePage {
   witness: Witness;
 
   constructor(public navCtrl: NavController, private navParams: NavParams, private http: Http) {
-    
+    this.witness = this.navParams.get('witness');
   }
 
   ionViewDidLoad(){
-    this.witness = this.navParams.get('witness');
     // this.loginToken = this.navParams.get('token');
     // let headers = new Headers();
     // headers.append('Authorization', 'JWT ' + this.loginToken);

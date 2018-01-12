@@ -28,11 +28,21 @@ export class SignInPage {
           password: this.password
         }
       }
-    ).subscribe((witness) => {
-      let witnessData = witness.json();
-      this.navCtrl.push(HomePage, {
-        'witness': witnessData
-      });
-    });
+    ).subscribe(
+      (witness) => {
+        let witnessData = witness.json();
+        console.log('witness', witnessData);
+        this.navCtrl.push(
+          HomePage, 
+          {
+            'witness': witnessData
+          }
+        );
+      },
+      (error) => {
+        console.log('subscribe error');
+        console.log(error);
+      }
+    );
   }
 }
