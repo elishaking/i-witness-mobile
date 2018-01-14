@@ -8,8 +8,9 @@ import {
   MediaCapture, MediaFile, CaptureError,
   CaptureImageOptions, CaptureVideoOptions, CaptureAudioOptions
 } from '@ionic-native/media-capture';
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+// import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File as IonicFile } from '@ionic-native/file';
+import { FileChooser } from '@ionic-native/file-chooser';
 
 import { CompletePage } from '../complete/complete';
 import { Witness, Report } from '../../models/models';
@@ -36,7 +37,7 @@ export class SubmitReportPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public platform: Platform, public actionsheetctrl: ActionSheetController,
     private camera: Camera, private mediaCapture: MediaCapture, private http: Http,
-    private transfer: FileTransfer, public loadingCtrl: LoadingController,
+    public loadingCtrl: LoadingController, private fileChooser: FileChooser, //private transfer: FileTransfer,
     private file: IonicFile) {
     this.witness = this.navParams.get('witness');
     this.report = {title: '', message: '', location: 'i', witness: this.witness.id || null};
@@ -154,6 +155,7 @@ export class SubmitReportPage {
     actionSheet.present();
   }
 
+  /*
   uploadFile(filepath, apiEndpoint) {
     console.log('filename', this.media.fullPath.substr(this.media.fullPath.lastIndexOf('/') + 1));
     let options: FileUploadOptions = {
@@ -183,6 +185,7 @@ export class SubmitReportPage {
       console.log(err);
     });
   }
+  */
 
   send() {
     let loading = this.loadingCtrl.create({
@@ -192,9 +195,9 @@ export class SubmitReportPage {
       loading.dismiss();
     }, 10000);
 
-    // this.file.readAsDataURL(this.media.fullPath.replace(this.media.name, ''), this.media.name)
-    //   .then(
-        // (data) => {
+    this.file.readAsDataURL(this.media.fullPath.replace(this.media.name, ''), this.media.name)
+      .then(
+        (data) => {
           let reportBody = {
             title: this.report.title,
             message: this.report.message,
@@ -207,24 +210,24 @@ export class SubmitReportPage {
             // { headers: this.headers }
           ).subscribe(
               (report) => {
-                console.log(report);
-                // let mediaBody = {
-                //   file: data,
-                //   filename: 'report.' + this.media.name.split('.')[1],  //fix - use lastindexof
-                //   report: report.json().id
-                // };
-                // this.http.post(
-                //   'http://192.168.43.46:8000/api/media/create/', mediaBody
-                // ).subscribe(
-                //     (res) => {
-                //       // console.log('uploaded file');
-                //       // console.log(res);
-                //     }, 
-                //     (err)=>{
-                //       // console.log('upload error');
-                //       // console.log(err);
-                //     }
-                // );
+                // console.log(report);
+                let mediaBody = {
+                  file: data,
+                  filename: 'report.' + this.media.name.split('.')[1],  //fix - use lastindexof
+                  report: report.json().id
+                };
+                this.http.post(
+                  'http://192.168.43.46:8000/api/media/create/', mediaBody
+                ).subscribe(
+                    (res) => {
+                      // console.log('uploaded file');
+                      // console.log(res);
+                    }, 
+                    (err)=>{
+                      // console.log('upload error');
+                      // console.log(err);
+                    }
+                );
               },
               (error) => {
 
@@ -234,11 +237,11 @@ export class SubmitReportPage {
                 clearTimeout(timeout);
               }
             );
-        // }
-      // ).catch((r) => {
-      //   // console.log('error: ', r);
-      //   }
-      // );
+        }
+      ).catch((r) => {
+        // console.log('error: ', r);
+        }
+      );
   }
 
   // listDropboxfolders(path = ''){

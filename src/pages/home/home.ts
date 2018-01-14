@@ -36,7 +36,11 @@ export class HomePage {
   addReport(){
     this.navCtrl.push(ReportTemplatesPage, {
       witness: this.witness
-    })
+    });
+  }
+
+  updateAvatar(){
+    
   }
 
 }
