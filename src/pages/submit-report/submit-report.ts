@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { Platform, NavController, NavParams, LoadingController, ActionSheetController } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
-import { ActionSheetController } from 'ionic-angular/components/action-sheet/action-sheet-controller';
 
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import {
@@ -10,7 +9,6 @@ import {
 } from '@ionic-native/media-capture';
 // import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File as IonicFile } from '@ionic-native/file';
-import { FileChooser } from '@ionic-native/file-chooser';
 
 import { CompletePage } from '../complete/complete';
 import { Witness, Report } from '../../models/models';
@@ -37,7 +35,7 @@ export class SubmitReportPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public platform: Platform, public actionsheetctrl: ActionSheetController,
     private camera: Camera, private mediaCapture: MediaCapture, private http: Http,
-    public loadingCtrl: LoadingController, private fileChooser: FileChooser, //private transfer: FileTransfer,
+    public loadingCtrl: LoadingController, //private transfer: FileTransfer,
     private file: IonicFile) {
     this.witness = this.navParams.get('witness');
     this.report = {title: '', message: '', location: 'i', witness: this.witness.id || null};

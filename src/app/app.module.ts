@@ -10,6 +10,7 @@ import { MediaCapture } from '@ionic-native/media-capture';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { FileChooser } from '@ionic-native/file-chooser';
+import { FilePath } from '@ionic-native/file-path';
 
 
 import { MyApp } from './app.component';
@@ -60,6 +61,7 @@ import { ReportTemplatesPage } from '../pages/report-templates/report-templates'
     FileTransfer,
     File,
     FileChooser,
+    FilePath
   ] 
 })
 export class AppModule {}
