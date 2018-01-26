@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { Platform, NavController, NavParams, LoadingController, ActionSheetController } from 'ionic-angular';
+import { 
+  Platform, NavController, NavParams, 
+  LoadingController, ActionSheetController, 
+  ToastController 
+} from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
 
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -28,17 +32,17 @@ export class SubmitReportPage {
   // signedIn = false;
   witness: Witness;
 
-  media: MediaFile;
+  media: MediaFile[] = [];
 
   // dbx: Dropbox;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public platform: Platform, public actionsheetctrl: ActionSheetController,
     private camera: Camera, private mediaCapture: MediaCapture, private http: Http,
-    public loadingCtrl: LoadingController, //private transfer: FileTransfer,
+    public loadingCtrl: LoadingController, private toastCtrl: ToastController, //private transfer: FileTransfer,
     private file: IonicFile) {
     this.witness = this.navParams.get('witness');
-    this.report = {title: '', message: '', location: 'i', witness: this.witness.id || null};
+    this.report = {title: '', message: '', location: 'i', witness: this.witness ? this.witness.id : null};
     this.report.title = this.navParams.get('title');
   }
 
@@ -66,7 +70,7 @@ export class SubmitReportPage {
         newImg.setAttribute('width', "320");
         newImg.setAttribute("height", "320");
         newImg.src = data[0].fullPath;
-        this.media = data[0];
+        this.media.push(data[0]);
         mediaContainer.appendChild(newImg);
         mediaContainer.appendChild(document.createElement('hr'));
 
@@ -189,57 +193,81 @@ export class SubmitReportPage {
     let loading = this.loadingCtrl.create({
       content: 'Sending Report...'
     });
+    loading.present();
+
     let timeout = setTimeout(()=>{
+      this.toastCtrl.create({
+        message: "Could not submit report: Connection Error",
+        duration: 5000,
+        closeButtonText: 'OK',
+        dismissOnPageChange: true,
+      }).present();
       loading.dismiss();
-    }, 10000);
+    }, 15000);
 
-    this.file.readAsDataURL(this.media.fullPath.replace(this.media.name, ''), this.media.name)
-      .then(
-        (data) => {
-          let reportBody = {
-            title: this.report.title,
-            message: this.report.message,
-            location: this.report.location,
-            witness: this.report.witness
-          };
-          console.log(reportBody);
-          this.http.post(
-            'http://192.168.43.46:8000/api/reports/create/', reportBody,
-            // { headers: this.headers }
-          ).subscribe(
-              (report) => {
-                // console.log(report);
-                let mediaBody = {
-                  file: data,
-                  filename: 'report.' + this.media.name.split('.')[1],  //fix - use lastindexof
-                  report: report.json().id
-                };
-                this.http.post(
-                  'http://192.168.43.46:8000/api/media/create/', mediaBody
-                ).subscribe(
-                    (res) => {
-                      // console.log('uploaded file');
-                      // console.log(res);
-                    }, 
-                    (err)=>{
-                      // console.log('upload error');
-                      // console.log(err);
-                    }
-                );
-              },
-              (error) => {
+    
+    let reportBody = {
+      title: this.report.title,
+      message: this.report.message,
+      location: this.report.location,
+      witness: this.report.witness
+    };
+    // console.log(reportBody);
+    this.http.post(
+      'http://192.168.43.46:8000/api/reports/create/', reportBody,
+      // { headers: this.headers }
+    )
+    .subscribe(
+      (report) => {
+        // console.log(report);
+        for(let i = 0; i < this.media.length; i++){
+          let loading = this.loadingCtrl.create({
+            content: 'Uploading media files: ' + (i + 1) + ' out of ' + this.nFiles
+          });
+          loading.present();
 
-              },
-              () =>{
-                loading.dismiss();
-                clearTimeout(timeout);
-              }
-            );
+          let timeout = setTimeout(()=>{
+            this.toastCtrl.create({
+              message: "Connection Error: " + i + " files uploaded",
+              duration: 5000,
+              closeButtonText: 'OK',
+              dismissOnPageChange: true,
+            }).present();
+            loading.dismiss();
+          }, 15000);
+
+          this.file.readAsDataURL(this.media[i].fullPath.replace(this.media[i].name, ''), this.media[i].name)
+          .then(
+            (data) => {
+              let mediaBody = {
+                file: data,
+                filename: 'report' + report.json().id + '.' + this.media[i].name.split('.')[1],  //fix - use lastindexof
+                report: report.json().id
+              };
+              this.http.post(
+                'http://192.168.43.46:8000/api/media/create/', mediaBody
+              ).subscribe(
+                  (res) => {
+                    // console.log('uploaded file');
+                    // console.log(res);
+                  }, 
+                  (err)=>{
+                    // console.log('upload error');
+                    // console.log(err);
+                    loading.dismiss();
+                  }
+              );
+            }
+          );
         }
-      ).catch((r) => {
-        // console.log('error: ', r);
-        }
-      );
+      },
+      (error) => {
+      },
+      () =>{
+        loading.dismiss();
+        clearTimeout(timeout);
+      }
+    );
   }
 
   // listDropboxfolders(path = ''){
