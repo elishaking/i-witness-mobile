@@ -13,6 +13,7 @@ import {
 } from '@ionic-native/media-capture';
 // import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File as IonicFile } from '@ionic-native/file';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { CompletePage } from '../complete/complete';
 import { Witness, Report } from '../../models/models';
@@ -40,7 +41,7 @@ export class SubmitReportPage {
     public platform: Platform, public actionsheetctrl: ActionSheetController,
     private camera: Camera, private mediaCapture: MediaCapture, private http: Http,
     public loadingCtrl: LoadingController, private toastCtrl: ToastController, //private transfer: FileTransfer,
-    private file: IonicFile) {
+    private file: IonicFile, private geolocation: Geolocation) {
     this.witness = this.navParams.get('witness');
     this.report = {title: '', message: '', location: 'i', witness: this.witness ? this.witness.id : null};
     this.report.title = this.navParams.get('title');
@@ -189,85 +190,107 @@ export class SubmitReportPage {
   }
   */
 
+  // getLocation(){
+  //   // let location = '';
+  //   // this.geolocation.getCurrentPosition().then((geoposition) => {
+  //   //   location = geoposition.coords.latitude + ',' + geoposition.coords.longitude + ',' + geoposition.timestamp;
+  //   // });
+  // }
+
   send() {
     let loading = this.loadingCtrl.create({
       content: 'Sending Report...'
     });
     loading.present();
 
-    let timeout = setTimeout(()=>{
-      this.toastCtrl.create({
-        message: "Could not submit report: Connection Error",
-        duration: 5000,
-        closeButtonText: 'OK',
-        dismissOnPageChange: true,
-      }).present();
-      loading.dismiss();
-    }, 15000);
+    // let timeout = setTimeout(()=>{
+    // }, 15000);
 
-    
-    let reportBody = {
-      title: this.report.title,
-      message: this.report.message,
-      location: this.report.location,
-      witness: this.report.witness
-    };
-    // console.log(reportBody);
-    this.http.post(
-      'http://192.168.43.46:8000/api/reports/create/', reportBody,
-      // { headers: this.headers }
-    )
-    .subscribe(
-      (report) => {
-        // console.log(report);
-        for(let i = 0; i < this.media.length; i++){
+    let location = '';
+    this.geolocation.getCurrentPosition().then((geoposition) => {
+      this.report.location = geoposition.coords.latitude + ',' + geoposition.coords.longitude + ',' + geoposition.timestamp;
+
+      let reportBody = {
+        title: this.report.title,
+        message: this.report.message,
+        location: this.report.location,
+        witness: this.report.witness
+      };
+      // console.log(reportBody);
+      this.http.post(
+        'http://192.168.43.46:8000/api/reports/create/', reportBody,
+        // { headers: this.headers }
+      )
+      .subscribe(
+        (report) => {
+          // console.log(report);
           let loading = this.loadingCtrl.create({
-            content: 'Uploading media files: ' + (i + 1) + ' out of ' + this.nFiles
+            content: 'Uploading media files'
           });
           loading.present();
+          let loadingDismissed = false;
 
-          let timeout = setTimeout(()=>{
-            this.toastCtrl.create({
-              message: "Connection Error: " + i + " files uploaded",
-              duration: 5000,
-              closeButtonText: 'OK',
-              dismissOnPageChange: true,
-            }).present();
-            loading.dismiss();
-          }, 15000);
+          // let timeout = setTimeout(()=>{
+            
+          // }, 15000);
 
-          this.file.readAsDataURL(this.media[i].fullPath.replace(this.media[i].name, ''), this.media[i].name)
-          .then(
-            (data) => {
-              let mediaBody = {
-                file: data,
-                filename: 'report' + report.json().id + '.' + this.media[i].name.split('.')[1],  //fix - use lastindexof
-                report: report.json().id
-              };
-              this.http.post(
-                'http://192.168.43.46:8000/api/media/create/', mediaBody
-              ).subscribe(
-                  (res) => {
-                    // console.log('uploaded file');
-                    // console.log(res);
-                  }, 
-                  (err)=>{
-                    // console.log('upload error');
-                    // console.log(err);
-                    loading.dismiss();
-                  }
-              );
-            }
-          );
+          for(let i = 0; i < this.media.length; i++){
+            this.file.readAsDataURL(this.media[i].fullPath.replace(this.media[i].name, ''), this.media[i].name)
+            .then(
+              (data) => {
+                let mediaBody = {
+                  file: data,
+                  filename: 'report' + report.json().id + '.' + this.media[i].name.split('.')[1],  //fix - use lastindexof
+                  report: report.json().id
+                };
+                this.http.post(
+                  'http://192.168.43.46:8000/api/media/create/', mediaBody
+                ).subscribe(
+                    (res) => {
+                      // console.log('uploaded file');
+                      // console.log(res);
+                    }, 
+                    (err)=>{
+                      // console.log('upload error');
+                      // console.log(err);
+
+                      if(!loadingDismissed){
+                        loading.dismiss();
+                        loadingDismissed = true;
+                        this.toastCtrl.create({
+                          message: "Connection Error: " + i + "files uploaded",
+                          duration: 5000,
+                          closeButtonText: 'OK',
+                          dismissOnPageChange: true,
+                        }).present();
+                      }
+                      
+                    },
+                    () => {
+                      if(i == this.nFiles - 1)
+                        loading.dismiss();
+                    }
+                );
+              }
+            );
+          }
+        },
+        (error) => {
+          loading.dismiss();
+          this.toastCtrl.create({
+            message: "Could not submit report: Connection Error",
+            duration: 5000,
+            closeButtonText: 'OK',
+            dismissOnPageChange: true,
+          }).present();
+          // clearTimeout(timeout);
+        },
+        () =>{
+          loading.dismiss();
+          // clearTimeout(timeout);
         }
-      },
-      (error) => {
-      },
-      () =>{
-        loading.dismiss();
-        clearTimeout(timeout);
-      }
-    );
+      );
+    });
   }
 
   // listDropboxfolders(path = ''){

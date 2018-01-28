@@ -11,6 +11,7 @@ import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
+import { Geolocation } from '@ionic-native/geolocation';
 
 
 import { MyApp } from './app.component';
@@ -61,7 +62,8 @@ import { ReportTemplatesPage } from '../pages/report-templates/report-templates'
     FileTransfer,
     File,
     FileChooser,
-    FilePath
+    FilePath,
+    Geolocation
   ] 
 })
 export class AppModule {}
