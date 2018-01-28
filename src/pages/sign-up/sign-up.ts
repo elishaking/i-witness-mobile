@@ -4,6 +4,8 @@ import { Http } from '@angular/http';
 
 import { HomePage } from '../home/home';
 
+import { getURL } from '../../models/models';
+
 @Component({
   selector: 'page-sign-up',
   templateUrl: 'sign-up.html',
@@ -24,7 +26,7 @@ export class SignUpPage {
     // console.log(this.user.getUserObject());
     this.http.post(
       // 'https://iwitnez.herokuapp.com/api/witness/create/',
-      'http://localhost:8000/api/witness/create/',
+      getURL() + 'api/witness/create/',
       this.user.getUserObject(),
       // {
       //   headers: headers
@@ -38,7 +40,7 @@ export class SignUpPage {
     });
     // this.http.get(
     //   // 'https://iwitnez.herokuapp.com/api/witness/'
-    //   'http://localhost:8000/api/witness/'
+    //   getURL() + 'api/witness/'
     // ).subscribe(()=>{
     //   console.log("gotten");
     // });

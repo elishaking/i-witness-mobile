@@ -16,7 +16,7 @@ import { File as IonicFile } from '@ionic-native/file';
 import { Geolocation } from '@ionic-native/geolocation';
 
 import { CompletePage } from '../complete/complete';
-import { Witness, Report } from '../../models/models';
+import { Witness, Report, getURL } from '../../models/models';
 
 // import Dropbox = require('../../../node_modules/dropbox/src/index');
 
@@ -218,7 +218,7 @@ export class SubmitReportPage {
       };
       // console.log(reportBody);
       this.http.post(
-        'http://192.168.43.46:8000/api/reports/create/', reportBody,
+        getURL() + 'api/reports/create/', reportBody,
         // { headers: this.headers }
       )
       .subscribe(
@@ -244,7 +244,7 @@ export class SubmitReportPage {
                   report: report.json().id
                 };
                 this.http.post(
-                  'http://192.168.43.46:8000/api/media/create/', mediaBody
+                  getURL() + 'api/media/create/', mediaBody
                 ).subscribe(
                     (res) => {
                       // console.log('uploaded file');

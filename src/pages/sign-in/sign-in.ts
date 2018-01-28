@@ -4,6 +4,8 @@ import { Http } from '@angular/http';
 
 import { HomePage } from '../home/home';
 
+import { getURL } from '../../models/models';
+
 @Component({
   selector: 'page-sign-in',
   templateUrl: 'sign-in.html',
@@ -30,7 +32,7 @@ export class SignInPage {
     }, 10000);
 
     this.http.post(
-      'http://192.168.43.46:8000/api/witness/login/',
+      getURL() + 'api/witness/login/',
       {
         account: {
           auth_field: this.email,

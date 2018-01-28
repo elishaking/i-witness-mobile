@@ -13,7 +13,7 @@ import {
 import { File as IonicFile } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
 
-import { Witness } from '../../models/models';
+import { Witness, getURL } from '../../models/models';
 
 @Component({
   selector: 'page-home',
@@ -30,8 +30,8 @@ export class HomePage {
     private mediaCapture: MediaCapture, private file: IonicFile, private filepath: FilePath) {
     this.witness = this.navParams.get('witness');
     console.log(this.witness);
-    // 'http://192.168.43.46:8000/api/witness/1?format=json'
-    this.http.get('http://192.168.43.46:8000/api/witness/' + this.witness.account.owner_id + '?format=json')
+    // getURL() + 'api/witness/1?format=json'
+    this.http.get(getURL() + 'api/witness/' + this.witness.account.owner_id + '?format=json')
       .subscribe(
         (res) => {
           this.witness = res.json();
@@ -46,7 +46,7 @@ export class HomePage {
 
     // headers.append('Authorization', 'JWT ' + this.loginToken);
     // this.http.get(
-    //   'http://192.168.43.46:8000/api/witness/' + this.navParams.get('id'),
+    //   getURL() + 'api/witness/' + this.navParams.get('id'),
     //   { headers: headers }
     // ).subscribe((res) => {
     //   this.witness = res.json();
@@ -105,7 +105,7 @@ export class HomePage {
                               (data) => {
                                 console.log(data);
                                 this.http.put(
-                                  'http://192.168.43.46:8000/api/accounts/' + this.witness.account.owner_id + '/edit',
+                                  getURL() + 'api/accounts/' + this.witness.account.owner_id + '/edit',
                                   {
                                     phone_number: this.witness.account.phone_number,
                                     image: data
@@ -132,7 +132,7 @@ export class HomePage {
     actionSheet.present();
     // */
     // this.http.put(
-    //   'http://192.168.43.46:8000/api/accounts/' + this.witness.id + '/edit',
+    //   getURL() + 'api/accounts/' + this.witness.id + '/edit',
     //   {
     //     phone_number: this.witness.account.phone_number,
     //     image: '98988'
