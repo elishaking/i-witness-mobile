@@ -11,7 +11,7 @@ import { getURL } from '../../models/models';
   templateUrl: 'sign-in.html',
 })
 export class SignInPage {
-  email: string = 'test101';
+  email: string = 'king.elisha';
   password: string = 'test12345';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private http: Http,
