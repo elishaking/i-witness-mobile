@@ -35,7 +35,23 @@
     }
 }
 
+.form-container{
+    padding-right: 15px;
+}
+
+.error-msg{
+    color: red !important;
+    white-space: initial;
+    font-size: 75% !important;
+    margin-right: -8px !important;
+}
+
 #center-btn{
+    margin-top: 5vh;
+    text-align: center;
+}
+
+.center-btn{
     margin-top: 5vh;
     text-align: center;
 }
@@ -52,4 +68,9 @@
 
 button{
     text-transform: none !important;
+}
+
+ion-slides{
+    height: fit-content;
+    width: fit-content;
 }
