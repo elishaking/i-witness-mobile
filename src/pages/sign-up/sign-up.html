@@ -65,7 +65,7 @@
           <p [ngStyle]="{color: strengthColor}" ><strong>{{ passwordStrength }}</strong></p>
         </ion-item>
         <ion-item *ngIf="!signUpForm3.controls.password.valid && (signUpForm3.controls.password.dirty || submitTry)">
-          <p class="error-msg">Limit password to 30 characters</p>
+          <p class="error-msg">Enter password (<strong>30 characters or more</strong>)</p>
         </ion-item>
 
         <ion-item>

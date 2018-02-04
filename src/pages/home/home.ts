@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
-import { User } from '../sign-up/sign-up';
 import { ReportTemplatesPage } from '../report-templates/report-templates';
 
 import { FileChooser } from '@ionic-native/file-chooser';

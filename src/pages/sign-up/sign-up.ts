@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Slides } from 'ionic-angular';
+import { NavController, NavParams, Slides, LoadingController, ToastController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -24,15 +24,16 @@ export class SignUpPage {
   submitText = 'Next';
   submitTry = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private http: Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, 
+    private http: Http, private loadingCtrl: LoadingController, private toastCtrl: ToastController) {
     this.signUpForm1 = new FormBuilder().group({
-      firstName: ['f', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z ]*$/), Validators.maxLength(30)])],
-      lastName: ['l', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z ]*$/), Validators.maxLength(30)])],
+      firstName: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z ]*$/), Validators.maxLength(30)])],
+      lastName: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z ]*$/), Validators.maxLength(30)])],
     });
 
     this.signUpForm2 = new FormBuilder().group({
-      username: ['jkk', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z0-9]*$/), Validators.maxLength(150)])],
-      email: ['h@j.com', Validators.compose([Validators.required, Validators.pattern(/^\w+@\w+\.\w+$/), Validators.maxLength(150)])]
+      username: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z0-9]*$/), Validators.maxLength(150)])],
+      email: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Z0-9\.\_]*@[a-zA-Z0-9\.\_]*\.[a-zA-Z0-9\.\_]*$/), Validators.maxLength(150)])]
     });
 
     this.signUpForm3 = new FormBuilder().group({
@@ -121,7 +122,11 @@ export class SignUpPage {
   }
 
   signUp(){
-    console.log(this.signUpForm1.value, this.signUpForm2.value, this.signUpForm3.value, this.signUpForm4.value);
+    // console.log(this.signUpForm1.value, this.signUpForm2.value, this.signUpForm3.value, this.signUpForm4.value);
+    let loading = this.loadingCtrl.create({
+      content: 'Creating witness account',
+    });
+    loading.present();
     this.http.post(
       // 'https://iwitnez.herokuapp.com/api/witness/create/',
       getURL() + 'api/witness/create/',
@@ -141,12 +146,18 @@ export class SignUpPage {
       // }
     ).subscribe((res)=>{
       console.log("user created");
+      loading.dismiss();
       this.navCtrl.push(HomePage, {
         'witness': res.json()
       });
     }, (error) => {
       console.log(error);
       console.log("user not created");
+      loading.dismiss();
+      this.toastCtrl.create({
+        message: 'Could not create account',
+        duration: 3000
+      }).present();
     });
   }
 
