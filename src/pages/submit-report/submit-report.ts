@@ -207,7 +207,8 @@ export class SubmitReportPage {
     // }, 15000);
 
     let location = '';
-    this.geolocation.getCurrentPosition({enableHighAccuracy: true}).then((geoposition) => {
+    // {enableHighAccuracy: true}
+    this.geolocation.getCurrentPosition().then((geoposition) => {
       this.report.location = geoposition.coords.latitude + ',' + geoposition.coords.longitude + ',' + geoposition.timestamp;
 
       let reportBody = {
