@@ -125,6 +125,7 @@ export class SignUpPage {
     // console.log(this.signUpForm1.value, this.signUpForm2.value, this.signUpForm3.value, this.signUpForm4.value);
     let loading = this.loadingCtrl.create({
       content: 'Creating witness account',
+      enableBackdropDismiss: true
     });
     loading.present();
     this.http.post(

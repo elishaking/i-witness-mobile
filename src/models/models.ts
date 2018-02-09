@@ -26,6 +26,6 @@ export interface Witness {
 }
 
 export function getURL(){
-    let mode = 'dep'
+    let mode = 'dep';
     return mode == 'dep' ? 'https://iwitnez.herokuapp.com/' : 'http://192.168.43.46:8000/';
 }

@@ -216,7 +216,7 @@ export class SubmitReportPage {
         location: this.report.location,
         witness: this.report.witness
       };
-      // console.log(reportBody);
+      console.log(reportBody);
       this.http.post(
         getURL() + 'api/reports/create/', reportBody,
         // { headers: this.headers }
