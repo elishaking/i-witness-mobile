@@ -40,7 +40,7 @@
     "cordova-plugin-filechooser": "^1.0.1",
     "cordova-plugin-filepath": "^1.1.0",
     "cordova-plugin-geolocation": "^4.0.1",
-    "cordova-plugin-ionic-webview": "^1.1.16",
+    "cordova-plugin-ionic-webview": "^2.2.0",
     "cordova-plugin-media-capture": "^3.0.0",
     "cordova-plugin-preview-camera": "0.0.14",
     "cordova-plugin-splashscreen": "^4.1.0",
