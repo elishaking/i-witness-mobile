@@ -5,6 +5,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { LandingPage } from '../pages/landing/landing';
+import { ReportTemplatesPage } from '../pages/report-templates/report-templates';
+// import { SignUpPage } from '../pages/sign-up/sign-up';
+// import { SignInPage } from '../pages/sign-in/sign-in';
+// import { SubmitReportPage } from '../pages/submit-report/submit-report';
+
 @Component({
   templateUrl: 'app.html'
 })

@@ -8,28 +8,54 @@
 
 
 <ion-content padding>
-  <ion-item>
-    <ion-label floating>Title</ion-label>
-    <ion-input type="text"></ion-input>
-  </ion-item>
-
-  <table id="files">
-    <tr>
-      <td><p>{{ nFiles }} added</p></td>
-      <td><button ion-button clear (click)="addNewFile()">Add New File</button></td>
-    </tr>
-  </table>
+  <!-- <ion-item> -->
+    <div floating id="title">
+      <h2> {{ report.title }}  </h2>
+    </div>
+  <!-- </ion-item> -->
 
   <ion-item>
-    <ion-label floating>Brief Description</ion-label>
-    <ion-textarea></ion-textarea>
+    <table id="files">
+      <tr>
+          <td><button ion-button padding (click)="addMedia()">Add media file</button></td>
+          <td><ion-icon padding name="camera"></ion-icon></td>
+          <td><ion-icon padding name="mic"></ion-icon></td>
+          <td><ion-icon padding name="videocam"></ion-icon></td>
+        <!-- <td><button ion-button clear (click)="addNewFile()">Add New File</button></td> -->
+      </tr>
+    </table>
+    <p>{{ nFiles }} added</p>
   </ion-item>
 
-  <table id="send">
+  <!-- <ion-slides>
+    <ion-slide *ngFor="let newMedia of medias; let i = index">
+      <ion-card>
+
+      </ion-card>
+    </ion-slide>
+  </ion-slides> -->
+  <ion-card id="media">
+    <!-- <img id="image" alt="Preview"/> -->
+    <!-- <video id="video" width="320" height="240" controls> -->
+      <!-- <source id="video-src" src="" type="video/mp4"> -->
+      <!-- <source src="movie.ogg" type="video/ogg"> -->
+    <!-- Video not supported -->
+    <!-- </video> -->
+  </ion-card>
+
+  <ion-item>
+    <ion-label floating>Brief Message</ion-label>
+    <ion-textarea rows="5" [(ngModel)]="report.message" ></ion-textarea>
+  </ion-item>
+
+  <!-- <input id="media" name="file" type="file"/> -->
+
+  <!-- <table id="send">
     <tr>
       <td><button ion-button clear disabled style="color: black;">Send as</button></td>
       <td><button ion-button round (click)="submitAsUser()">{{ name }}</button></td>
       <td><button ion-button clear (click)="submitAsUnknown()">Anonymous User</button></td>
     </tr>
-  </table>
+  </table> -->
+  <button id="send" ion-button style="color: black;" (click)="send()" >Send</button>
 </ion-content>

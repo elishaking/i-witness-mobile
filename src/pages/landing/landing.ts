@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import { AddReportFilePage } from '../add-report-file/add-report-file';
 import { SignInPage } from '../sign-in/sign-in';
 import { SignUpPage } from '../sign-up/sign-up';
+import { ReportTemplatesPage } from '../report-templates/report-templates';
 
 @Component({
   selector: 'page-landing',
@@ -19,7 +19,7 @@ export class LandingPage {
   }
 
   createReport(){
-    this.navCtrl.push(AddReportFilePage);
+    this.navCtrl.push(ReportTemplatesPage);
   }
 
   signIn(){

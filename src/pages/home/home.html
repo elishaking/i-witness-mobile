@@ -1,19 +1,19 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>
-      {{ firstName }}
+      {{ witness.first_name }}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <div id="avatar">
-    <ion-icon name="contact"></ion-icon>
+    <ion-icon name="contact" (click)="updateAvatar()" ></ion-icon>
   </div>
   
   <div id="details">
-    <h3>{{ firstName }} {{ lastName }}</h3>
-    <p class="highlight">{{ phoneNumber }}</p>
+    <h3>{{ witness.first_name }} {{ witness.last_name }}</h3>
+    <p class="highlight">{{ witness.phone_number }}</p>
   </div>
 
   <ion-list id="options">
@@ -29,4 +29,6 @@
       Account Settings
     </button>
   </ion-list>
+
+  <button ion-button round (click)="addReport()">Add Report</button>
 </ion-content>
